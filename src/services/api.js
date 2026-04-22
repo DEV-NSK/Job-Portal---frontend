@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const baseURL = import.meta.env.PROD 
-  ? 'https://job-portal-backend-gamma-dun.vercel.app'
+  ? 'https://job-portal-backend-fna9xur1a-bathula-sai-kirans-projects.vercel.app'
   : '/api'
 
 const API = axios.create({ baseURL })
