@@ -1,10 +1,6 @@
 import axios from 'axios'
 
-const baseURL = import.meta.env.PROD 
-  ? 'https://job-portal-backend-idhsiwrwi-bathula-sai-kirans-projects.vercel.app/api'
-  : '/api'
-
-const API = axios.create({ baseURL })
+const API = axios.create({ baseURL: import.meta.env.VITE_API_URL })
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
