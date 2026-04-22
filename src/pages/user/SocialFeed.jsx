@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast'
 import { FiHeart, FiMessageCircle, FiSend, FiTrash2, FiImage, FiX } from 'react-icons/fi'
 import { formatDistanceToNow } from 'date-fns'
+import { getImageUrl } from '../../utils/imageUtils'
 
 function PostCard({ post, currentUser, onDelete, onLike }) {
   const [comments, setComments] = useState([])
@@ -54,7 +55,7 @@ function PostCard({ post, currentUser, onDelete, onLike }) {
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center font-bold text-sm overflow-hidden flex-shrink-0">
-            {post.author?.avatar ? <img src={post.author.avatar} alt="" className="w-full h-full object-cover" /> : post.author?.name?.[0]?.toUpperCase()}
+            {post.author?.avatar ? <img src={getImageUrl(post.author.avatar)} alt="" className="w-full h-full object-cover" /> : post.author?.name?.[0]?.toUpperCase()}
           </div>
           <div>
             <p className="font-semibold text-white text-sm">{post.author?.name}</p>
@@ -76,7 +77,7 @@ function PostCard({ post, currentUser, onDelete, onLike }) {
 
       <p className="mt-4 text-gray-300 leading-relaxed whitespace-pre-wrap">{post.content}</p>
       {post.image && (
-        <img src={post.image} alt="" className="mt-4 rounded-xl w-full object-cover max-h-80 border border-gray-800" />
+        <img src={getImageUrl(post.image)} alt="" className="mt-4 rounded-xl w-full object-cover max-h-80 border border-gray-800" />
       )}
 
       <div className="mt-4 pt-4 border-t border-gray-800 flex items-center gap-4">
@@ -100,7 +101,7 @@ function PostCard({ post, currentUser, onDelete, onLike }) {
             comments.map(c => (
               <div key={c._id} className="flex items-start gap-2.5 group">
                 <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary-600/50 to-accent-600/50 flex items-center justify-center text-xs font-bold flex-shrink-0 overflow-hidden">
-                  {c.author?.avatar ? <img src={c.author.avatar} alt="" className="w-full h-full object-cover" /> : c.author?.name?.[0]?.toUpperCase()}
+                  {c.author?.avatar ? <img src={getImageUrl(c.author.avatar)} alt="" className="w-full h-full object-cover" /> : c.author?.name?.[0]?.toUpperCase()}
                 </div>
                 <div className="flex-1 bg-gray-800/50 rounded-xl px-3 py-2">
                   <p className="text-xs font-semibold text-gray-300">{c.author?.name}</p>
@@ -188,7 +189,7 @@ export default function SocialFeed() {
           <form onSubmit={handlePost}>
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center font-bold text-sm overflow-hidden flex-shrink-0">
-                {user?.avatar ? <img src={user.avatar} alt="" className="w-full h-full object-cover" /> : user?.name?.[0]?.toUpperCase()}
+                {user?.avatar ? <img src={getImageUrl(user.avatar)} alt="" className="w-full h-full object-cover" /> : user?.name?.[0]?.toUpperCase()}
               </div>
               <textarea rows={3} placeholder="Share something with the community..."
                 className="input-field resize-none flex-1"

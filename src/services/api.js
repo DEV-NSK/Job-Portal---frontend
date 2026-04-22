@@ -1,6 +1,10 @@
 import axios from 'axios'
 
-const API = axios.create({ baseURL: '/api' })
+const baseURL = import.meta.env.PROD 
+  ? 'https://job-portal-backend-gamma-dun.vercel.app'
+  : '/api'
+
+const API = axios.create({ baseURL })
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
