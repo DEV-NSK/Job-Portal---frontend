@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { adminAPI } from '../../services/api'
-import { FiUsers, FiBriefcase, FiFileText, FiActivity, FiTrendingUp } from 'react-icons/fi'
+import { motion } from 'framer-motion'
+import { FiUsers, FiBriefcase, FiFileText, FiActivity, FiTrendingUp, FiArrowRight, FiShield } from 'react-icons/fi'
+
+const stagger = {
+  container: { hidden: {}, visible: { transition: { staggerChildren: 0.07 } } },
+  item: { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4 } } }
+}
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null)
@@ -12,55 +18,94 @@ export default function AdminDashboard() {
   }, [])
 
   const cards = stats ? [
-    { label: 'Job Seekers', value: stats.users, icon: FiUsers, color: 'from-blue-600/20 to-blue-600/5', border: 'border-blue-500/20', text: 'text-blue-400', link: '/admin/users' },
-    { label: 'Employers', value: stats.employers, icon: FiBriefcase, color: 'from-purple-600/20 to-purple-600/5', border: 'border-purple-500/20', text: 'text-purple-400', link: '/admin/users' },
-    { label: 'Job Posts', value: stats.jobs, icon: FiFileText, color: 'from-green-600/20 to-green-600/5', border: 'border-green-500/20', text: 'text-green-400', link: '/admin/jobs' },
-    { label: 'Applications', value: stats.applications, icon: FiActivity, color: 'from-yellow-600/20 to-yellow-600/5', border: 'border-yellow-500/20', text: 'text-yellow-400', link: '/admin/jobs' },
-    { label: 'Social Posts', value: stats.posts, icon: FiTrendingUp, color: 'from-red-600/20 to-red-600/5', border: 'border-red-500/20', text: 'text-red-400', link: '/admin/posts' },
+    { label: 'Job Seekers', value: stats.users, icon: FiUsers, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20', link: '/admin/users', change: 'Registered users' },
+    { label: 'Employers', value: stats.employers, icon: FiBriefcase, color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20', link: '/admin/users', change: 'Active companies' },
+    { label: 'Job Posts', value: stats.jobs, icon: FiFileText, color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20', link: '/admin/jobs', change: 'Total listings' },
+    { label: 'Applications', value: stats.applications, icon: FiActivity, color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20', link: '/admin/jobs', change: 'Submitted' },
+    { label: 'Social Posts', value: stats.posts, icon: FiTrendingUp, color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20', link: '/admin/posts', change: 'Community posts' },
   ] : []
 
+  const actions = [
+    { title: 'Manage Users', desc: 'View, search and moderate user accounts', link: '/admin/users', icon: FiUsers, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
+    { title: 'Manage Jobs', desc: 'Monitor and remove job listings', link: '/admin/jobs', icon: FiBriefcase, color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+    { title: 'Manage Posts', desc: 'Moderate community feed content', link: '/admin/posts', icon: FiFileText, color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' },
+  ]
+
   return (
-    <div className="min-h-screen pt-20 px-4 pb-12">
-      <div className="max-w-7xl mx-auto">
-        <div className="py-8">
-          <h1 className="text-3xl font-bold dark:text-white text-gray-900">Admin Dashboard</h1>
-          <p className="dark:text-gray-400 text-gray-500 mt-1">Platform overview and management</p>
+    <div className="min-h-screen pt-16 bg-slate-50 dark:bg-[#060912]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        {/* ── Header ── */}
+        <div className="flex items-center gap-4 mb-10">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+            <FiShield size={20} className="text-white" />
+          </div>
+          <div>
+            <div className="text-[12px] font-semibold text-indigo-400 uppercase tracking-widest mb-1">Admin Panel</div>
+            <h1 className="text-[26px] font-bold text-slate-900 dark:text-white">Platform Overview</h1>
+          </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
-          {loading ? (
-            Array.from({ length: 5 }).map((_, i) => <div key={i} className="skeleton h-28 rounded-2xl" />)
-          ) : cards.map(({ label, value, icon: Icon, color, border, text, link }) => (
-            <Link key={label} to={link}
-              className={`card bg-gradient-to-br ${color} border ${border} hover:scale-105 transition-all`}>
-              <div className={`w-10 h-10 rounded-xl bg-gray-900/50 flex items-center justify-center ${text} mb-3`}>
-                <Icon size={18} />
-              </div>
-              <div className="text-3xl font-bold text-white">{value?.toLocaleString()}</div>
-              <div className="text-gray-400 text-sm mt-1">{label}</div>
-            </Link>
-          ))}
-        </div>
+        {/* ── Stats ── */}
+        <motion.div
+          variants={stagger.container}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8"
+        >
+          {loading
+            ? Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="skeleton h-32 rounded-2xl" />
+              ))
+            : cards.map(c => (
+                <motion.div key={c.label} variants={stagger.item}>
+                  <Link to={c.link} className="stat-card block group">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${c.bg} ${c.color} mb-4 group-hover:scale-110 transition-transform`}>
+                      <c.icon size={18} />
+                    </div>
+                    <div className="text-[26px] font-bold text-white leading-none mb-1">
+                      {c.value?.toLocaleString()}
+                    </div>
+                    <div className="text-[13px] text-slate-400 mb-0.5">{c.label}</div>
+                    <div className="text-[11px] text-slate-600">{c.change}</div>
+                  </Link>
+                </motion.div>
+              ))
+          }
+        </motion.div>
 
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-4">
-          {[
-            { title: 'Manage Users', desc: 'View, search and remove users', link: '/admin/users', icon: FiUsers, color: 'text-blue-400' },
-            { title: 'Manage Jobs', desc: 'Monitor and remove job listings', link: '/admin/jobs', icon: FiBriefcase, color: 'text-green-400' },
-            { title: 'Manage Posts', desc: 'Moderate social feed content', link: '/admin/posts', icon: FiFileText, color: 'text-purple-400' },
-          ].map(({ title, desc, link, icon: Icon, color }) => (
-            <Link key={title} to={link} className="card hover:scale-[1.02] hover:border-gray-600 transition-all group">
-              <div className={`w-12 h-12 rounded-xl dark:bg-gray-800 bg-slate-100 flex items-center justify-center ${color} mb-4 group-hover:scale-110 transition-transform`}>
-                <Icon size={20} />
-              </div>
-              <h3 className="font-semibold dark:text-white text-gray-900 mb-1">{title}</h3>
-              <p className="dark:text-gray-400 text-gray-500 text-sm">{desc}</p>
-              <span className="text-primary-400 text-sm mt-3 inline-block group-hover:translate-x-1 transition-transform">Go →</span>
-            </Link>
-          ))}
+        {/* ── Quick Actions ── */}
+        <div className="mb-3">
+          <h2 className="text-[16px] font-semibold text-white mb-1">Quick Actions</h2>
+          <p className="text-[13px] text-slate-500">Manage platform content and users</p>
         </div>
+        <motion.div
+          variants={stagger.container}
+          initial="hidden"
+          animate="visible"
+          className="grid md:grid-cols-3 gap-4"
+        >
+          {actions.map(a => (
+            <motion.div key={a.title} variants={stagger.item}>
+              <Link to={a.link} className="card card-hover flex items-start gap-4 group">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${a.bg} ${a.color} flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                  <a.icon size={20} />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-[15px] font-semibold text-slate-200 mb-1">{a.title}</h3>
+                  <p className="text-[13px] text-slate-500 leading-relaxed">{a.desc}</p>
+                  <div className="flex items-center gap-1 text-[13px] text-indigo-400 mt-3 group-hover:gap-2 transition-all">
+                    Manage <FiArrowRight size={13} />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </div>
   )
 }
+
+
+

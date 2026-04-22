@@ -103,14 +103,37 @@ export default function App() {
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        
+        {/* Premium Toast Notifications */}
         <Toaster
           position="top-right"
           toastOptions={{
-            style: isDark
-              ? { background: '#1f2937', color: '#f9fafb', border: '1px solid #374151' }
-              : { background: '#ffffff', color: '#111827', border: '1px solid #e2e8f0' },
-            success: { iconTheme: { primary: '#10b981', secondary: isDark ? '#f9fafb' : '#ffffff' } },
-            error: { iconTheme: { primary: '#ef4444', secondary: isDark ? '#f9fafb' : '#ffffff' } }
+            duration: 4000,
+            style: {
+              background: isDark ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(12px)',
+              border: isDark ? '1px solid rgba(148, 163, 184, 0.1)' : '1px solid rgba(148, 163, 184, 0.2)',
+              borderRadius: '12px',
+              color: isDark ? '#e2e8f0' : '#1e293b',
+              padding: '12px 16px',
+              fontSize: '14px',
+              fontWeight: '500',
+              boxShadow: isDark 
+                ? '0 10px 25px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.05)'
+                : '0 10px 25px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.05)'
+            },
+            success: { 
+              iconTheme: { 
+                primary: '#10b981', 
+                secondary: isDark ? '#f9fafb' : '#ffffff' 
+              } 
+            },
+            error: { 
+              iconTheme: { 
+                primary: '#ef4444', 
+                secondary: isDark ? '#f9fafb' : '#ffffff' 
+              } 
+            }
           }}
         />
       </BrowserRouter>

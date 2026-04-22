@@ -1,51 +1,90 @@
-import { FiMapPin, FiBriefcase, FiClock, FiDollarSign, FiUsers } from 'react-icons/fi'
+import { useState } from 'react'
+import { FiMapPin, FiBriefcase, FiClock, FiDollarSign, FiUsers, FiShare2 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { formatDistanceToNow } from 'date-fns'
+import { motion } from 'framer-motion'
+import ShareModal from './ShareModal'
 
 const typeColors = {
-  'Full-time': 'badge-green', 'Part-time': 'badge-yellow',
-  'Remote': 'badge-blue', 'Contract': 'badge-purple', 'Internship': 'badge-red'
+  'Full-time': 'badge-green',
+  'Part-time': 'badge-yellow',
+  'Remote': 'badge-blue',
+  'Contract': 'badge-purple',
+  'Internship': 'badge-cyan',
 }
 
-export default function JobCard({ job }) {
+export default function JobCard({ job, index = 0 }) {
+  const [showShare, setShowShare] = useState(false)
+
   return (
-    <Link to={`/jobs/${job._id}`}
-      className="card group hover:scale-[1.02] hover:glow block animate-slide-up">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-start gap-4 flex-1 min-w-0">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-600/30 to-accent-600/30 border border-primary-500/20 flex items-center justify-center flex-shrink-0 overflow-hidden">
-            {job.companyLogo
-              ? <img src={job.companyLogo} alt="" className="w-full h-full object-cover rounded-xl" />
-              : <span className="text-primary-500 dark:text-primary-400 font-bold text-lg">{job.companyName?.[0]}</span>}
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.06, duration: 0.4 }}
+      >
+        <Link to={`/jobs/${job._id}`} className="card card-hover group block">
+
+          {/* Header */}
+          <div className="flex items-start justify-between gap-3 mb-4">
+            <div className="flex items-start gap-3 min-w-0">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 border border-indigo-500/15 flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:border-indigo-500/30 transition-colors">
+                {job.companyLogo
+                  ? <img src={job.companyLogo} alt={job.companyName} className="w-full h-full object-cover" />
+                  : <span className="text-indigo-500 dark:text-indigo-400 font-bold text-[16px]">{job.companyName?.[0]}</span>}
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-[15px] font-semibold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate leading-snug">
+                  {job.title}
+                </h3>
+                <p className="text-[13px] text-slate-500 mt-0.5">{job.companyName}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <span className={`badge ${typeColors[job.type] || 'badge-blue'}`}>{job.type}</span>
+              <button
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all opacity-0 group-hover:opacity-100"
+                onClick={e => { e.preventDefault(); e.stopPropagation(); setShowShare(true) }}
+                title="Share this job"
+              >
+                <FiShare2 size={13} />
+              </button>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold dark:text-white text-gray-900 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">{job.title}</h3>
-            <p className="dark:text-gray-400 text-gray-500 text-sm mt-0.5">{job.companyName}</p>
+
+          {/* Meta */}
+          <div className="flex flex-wrap gap-3 text-[12.5px] text-slate-500 dark:text-slate-600 mb-4">
+            <span className="flex items-center gap-1.5"><FiMapPin size={12} className="text-slate-400 dark:text-slate-700" /> {job.location}</span>
+            {job.salary && <span className="flex items-center gap-1.5"><FiDollarSign size={12} className="text-slate-400 dark:text-slate-700" /> {job.salary}</span>}
+            {job.experience && <span className="flex items-center gap-1.5"><FiBriefcase size={12} className="text-slate-400 dark:text-slate-700" /> {job.experience}</span>}
           </div>
-        </div>
-        <span className={typeColors[job.type] || 'badge-blue'}>{job.type}</span>
-      </div>
 
-      <div className="mt-4 flex flex-wrap gap-3 text-sm dark:text-gray-400 text-gray-500">
-        <span className="flex items-center gap-1.5"><FiMapPin size={13} />{job.location}</span>
-        {job.salary && <span className="flex items-center gap-1.5"><FiDollarSign size={13} />{job.salary}</span>}
-        {job.experience && <span className="flex items-center gap-1.5"><FiBriefcase size={13} />{job.experience}</span>}
-        <span className="flex items-center gap-1.5 ml-auto"><FiClock size={13} />{formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</span>
-      </div>
+          {/* Skills */}
+          {job.skills?.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {job.skills.slice(0, 4).map(s => (
+                <span key={s} className="px-2.5 py-1 text-[11.5px] font-medium text-slate-600 dark:text-slate-500 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-[#1e2d3d]">
+                  {s}
+                </span>
+              ))}
+              {job.skills.length > 4 && <span className="px-2.5 py-1 text-[11.5px] text-slate-400 dark:text-slate-700">+{job.skills.length - 4}</span>}
+            </div>
+          )}
 
-      {job.skills?.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {job.skills.slice(0, 4).map(s => (
-            <span key={s} className="px-2.5 py-1 dark:bg-gray-800 bg-slate-100 dark:text-gray-300 text-gray-600 text-xs rounded-lg dark:border-gray-700 border border-slate-200">{s}</span>
-          ))}
-          {job.skills.length > 4 && <span className="px-2.5 py-1 dark:text-gray-500 text-gray-400 text-xs">+{job.skills.length - 4}</span>}
-        </div>
-      )}
+          {/* Footer */}
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-[#1e2d3d]">
+            <span className="flex items-center gap-1.5 text-[12px] text-slate-400 dark:text-slate-700">
+              <FiUsers size={11} /> {job.applicantsCount || 0} applicants
+            </span>
+            <span className="flex items-center gap-1.5 text-[12px] text-slate-400 dark:text-slate-700">
+              <FiClock size={11} /> {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}
+            </span>
+          </div>
+        </Link>
+      </motion.div>
 
-      <div className="mt-4 pt-4 dark:border-t dark:border-gray-800 border-t border-slate-100 flex items-center justify-between">
-        <span className="flex items-center gap-1.5 text-xs dark:text-gray-500 text-gray-400"><FiUsers size={12} />{job.applicantsCount} applicants</span>
-        <span className="text-primary-600 dark:text-primary-400 text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">View Details →</span>
-      </div>
-    </Link>
+      <ShareModal isOpen={showShare} onClose={() => setShowShare(false)} job={job} />
+    </>
   )
 }

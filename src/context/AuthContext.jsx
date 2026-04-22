@@ -38,8 +38,22 @@ export const AuthProvider = ({ children }) => {
     setUser(userData)
   }
 
+  // Save the URL the user was trying to visit before being redirected to login
+  const saveRedirectPath = (path) => {
+    if (path && path !== '/login' && path !== '/register') {
+      sessionStorage.setItem('redirectAfterLogin', path)
+    }
+  }
+
+  // Get and clear the saved redirect path
+  const getAndClearRedirectPath = () => {
+    const path = sessionStorage.getItem('redirectAfterLogin')
+    sessionStorage.removeItem('redirectAfterLogin')
+    return path
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateUser, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser, loading, saveRedirectPath, getAndClearRedirectPath }}>
       {children}
     </AuthContext.Provider>
   )
