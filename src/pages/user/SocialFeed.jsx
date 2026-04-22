@@ -58,13 +58,13 @@ function PostCard({ post, currentUser, onDelete, onLike }) {
             {post.author?.avatar ? <img src={getImageUrl(post.author.avatar)} alt="" className="w-full h-full object-cover" /> : post.author?.name?.[0]?.toUpperCase()}
           </div>
           <div>
-            <p className="font-semibold text-white text-sm">{post.author?.name}</p>
+            <p className="font-semibold dark:text-white text-gray-900 text-sm">{post.author?.name}</p>
             <div className="flex items-center gap-2">
-              <span className={`text-xs ${post.author?.role === 'employer' ? 'text-accent-400' : 'text-primary-400'}`}>
+              <span className={`text-xs ${post.author?.role === 'employer' ? 'text-accent-500 dark:text-accent-400' : 'text-primary-600 dark:text-primary-400'}`}>
                 {post.author?.role === 'employer' ? '🏢 Employer' : '👤 Job Seeker'}
               </span>
-              <span className="text-gray-600 text-xs">·</span>
-              <span className="text-gray-500 text-xs">{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}</span>
+              <span className="dark:text-gray-600 text-gray-300 text-xs">·</span>
+              <span className="dark:text-gray-500 text-gray-400 text-xs">{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}</span>
             </div>
           </div>
         </div>
@@ -75,12 +75,12 @@ function PostCard({ post, currentUser, onDelete, onLike }) {
         )}
       </div>
 
-      <p className="mt-4 text-gray-300 leading-relaxed whitespace-pre-wrap">{post.content}</p>
+      <p className="mt-4 dark:text-gray-300 text-gray-700 leading-relaxed whitespace-pre-wrap">{post.content}</p>
       {post.image && (
-        <img src={getImageUrl(post.image)} alt="" className="mt-4 rounded-xl w-full object-cover max-h-80 border border-gray-800" />
+        <img src={getImageUrl(post.image)} alt="" className="mt-4 rounded-xl w-full object-cover max-h-80 dark:border-gray-800 border border-slate-200" />
       )}
 
-      <div className="mt-4 pt-4 border-t border-gray-800 flex items-center gap-4">
+      <div className="mt-4 pt-4 dark:border-t dark:border-gray-800 border-t border-slate-100 flex items-center gap-4">
         <button onClick={handleLike}
           className={`flex items-center gap-1.5 text-sm transition-all hover:scale-110 ${liked ? 'text-red-400' : 'text-gray-500 hover:text-red-400'}`}>
           <FiHeart size={16} className={liked ? 'fill-current' : ''} /> {likeCount}
@@ -103,9 +103,9 @@ function PostCard({ post, currentUser, onDelete, onLike }) {
                 <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary-600/50 to-accent-600/50 flex items-center justify-center text-xs font-bold flex-shrink-0 overflow-hidden">
                   {c.author?.avatar ? <img src={getImageUrl(c.author.avatar)} alt="" className="w-full h-full object-cover" /> : c.author?.name?.[0]?.toUpperCase()}
                 </div>
-                <div className="flex-1 bg-gray-800/50 rounded-xl px-3 py-2">
-                  <p className="text-xs font-semibold text-gray-300">{c.author?.name}</p>
-                  <p className="text-sm text-gray-400 mt-0.5">{c.content}</p>
+                <div className="flex-1 dark:bg-gray-800/50 bg-slate-100 rounded-xl px-3 py-2">
+                  <p className="text-xs font-semibold dark:text-gray-300 text-gray-700">{c.author?.name}</p>
+                  <p className="text-sm dark:text-gray-400 text-gray-500 mt-0.5">{c.content}</p>
                 </div>
                 {(currentUser?._id === c.author?._id || currentUser?.role === 'admin') && (
                   <button onClick={() => handleDeleteComment(c._id)}
@@ -180,8 +180,8 @@ export default function SocialFeed() {
     <div className="min-h-screen pt-20 px-4 pb-12">
       <div className="max-w-2xl mx-auto">
         <div className="py-8">
-          <h1 className="text-3xl font-bold text-white">Community Feed</h1>
-          <p className="text-gray-400 mt-1">Connect with professionals</p>
+          <h1 className="text-3xl font-bold dark:text-white text-gray-900">Community Feed</h1>
+          <p className="dark:text-gray-400 text-gray-500 mt-1">Connect with professionals</p>
         </div>
 
         {/* Create Post */}

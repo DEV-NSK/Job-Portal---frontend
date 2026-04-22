@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
+import { useTheme } from './context/ThemeContext'
 import ProtectedRoute from './components/shared/ProtectedRoute'
 import Navbar from './components/shared/Navbar'
 
@@ -15,6 +16,23 @@ import JobDetails from './pages/user/JobDetails'
 import AppliedJobs from './pages/user/AppliedJobs'
 import Profile from './pages/user/Profile'
 import SocialFeed from './pages/user/SocialFeed'
+
+// ── 14 AI Feature Pages ──────────────────────────────────────────────────────
+import FeatureDashboard from './pages/user/FeatureDashboard'
+import AICopilot from './pages/user/AICopilot'
+import ProfileScore from './pages/user/ProfileScore'
+import SkillGraph from './pages/user/SkillGraph'
+import ResumeMatch from './pages/user/ResumeMatch'
+import ConsistencyTracker from './pages/user/ConsistencyTracker'
+import DailyCoding from './pages/user/DailyCoding'
+import InterviewRoom from './pages/user/InterviewRoom'
+import CodeQuality from './pages/user/CodeQuality'
+import ProjectHiring from './pages/user/ProjectHiring'
+import MockInterview from './pages/user/MockInterview'
+import LearningPath from './pages/user/LearningPath'
+import OpportunityScore from './pages/user/OpportunityScore'
+import PeerCoding from './pages/user/PeerCoding'
+import Reputation from './pages/user/Reputation'
 
 // Employer pages
 import EmployerDashboard from './pages/employer/EmployerDashboard'
@@ -31,6 +49,9 @@ import AdminManageJobs from './pages/admin/AdminManageJobs'
 import AdminManagePosts from './pages/admin/AdminManagePosts'
 
 export default function App() {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -47,6 +68,23 @@ export default function App() {
           <Route path="/applied" element={<ProtectedRoute role="user"><AppliedJobs /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute role="user"><Profile /></ProtectedRoute>} />
           <Route path="/posts" element={<ProtectedRoute><SocialFeed /></ProtectedRoute>} />
+
+          {/* ── 14 AI Feature Routes ─────────────────────────────────────── */}
+          <Route path="/features" element={<ProtectedRoute role="user"><FeatureDashboard /></ProtectedRoute>} />
+          <Route path="/copilot" element={<ProtectedRoute role="user"><AICopilot /></ProtectedRoute>} />
+          <Route path="/profile-score" element={<ProtectedRoute role="user"><ProfileScore /></ProtectedRoute>} />
+          <Route path="/skill-graph" element={<ProtectedRoute role="user"><SkillGraph /></ProtectedRoute>} />
+          <Route path="/resume-match" element={<ProtectedRoute role="user"><ResumeMatch /></ProtectedRoute>} />
+          <Route path="/consistency" element={<ProtectedRoute role="user"><ConsistencyTracker /></ProtectedRoute>} />
+          <Route path="/coding" element={<ProtectedRoute role="user"><DailyCoding /></ProtectedRoute>} />
+          <Route path="/interview-room" element={<ProtectedRoute role="user"><InterviewRoom /></ProtectedRoute>} />
+          <Route path="/code-quality" element={<ProtectedRoute role="user"><CodeQuality /></ProtectedRoute>} />
+          <Route path="/projects" element={<ProtectedRoute role="user"><ProjectHiring /></ProtectedRoute>} />
+          <Route path="/mock-interview" element={<ProtectedRoute role="user"><MockInterview /></ProtectedRoute>} />
+          <Route path="/learning-path" element={<ProtectedRoute role="user"><LearningPath /></ProtectedRoute>} />
+          <Route path="/opportunity" element={<ProtectedRoute role="user"><OpportunityScore /></ProtectedRoute>} />
+          <Route path="/peer-coding" element={<ProtectedRoute role="user"><PeerCoding /></ProtectedRoute>} />
+          <Route path="/reputation" element={<ProtectedRoute role="user"><Reputation /></ProtectedRoute>} />
 
           {/* Employer */}
           <Route path="/employer/dashboard" element={<ProtectedRoute role="employer"><EmployerDashboard /></ProtectedRoute>} />
@@ -68,9 +106,11 @@ export default function App() {
         <Toaster
           position="top-right"
           toastOptions={{
-            style: { background: '#1f2937', color: '#f9fafb', border: '1px solid #374151' },
-            success: { iconTheme: { primary: '#10b981', secondary: '#f9fafb' } },
-            error: { iconTheme: { primary: '#ef4444', secondary: '#f9fafb' } }
+            style: isDark
+              ? { background: '#1f2937', color: '#f9fafb', border: '1px solid #374151' }
+              : { background: '#ffffff', color: '#111827', border: '1px solid #e2e8f0' },
+            success: { iconTheme: { primary: '#10b981', secondary: isDark ? '#f9fafb' : '#ffffff' } },
+            error: { iconTheme: { primary: '#ef4444', secondary: isDark ? '#f9fafb' : '#ffffff' } }
           }}
         />
       </BrowserRouter>

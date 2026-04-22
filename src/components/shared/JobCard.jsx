@@ -16,17 +16,17 @@ export default function JobCard({ job }) {
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-600/30 to-accent-600/30 border border-primary-500/20 flex items-center justify-center flex-shrink-0 overflow-hidden">
             {job.companyLogo
               ? <img src={job.companyLogo} alt="" className="w-full h-full object-cover rounded-xl" />
-              : <span className="text-primary-400 font-bold text-lg">{job.companyName?.[0]}</span>}
+              : <span className="text-primary-500 dark:text-primary-400 font-bold text-lg">{job.companyName?.[0]}</span>}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-white group-hover:text-primary-400 transition-colors truncate">{job.title}</h3>
-            <p className="text-gray-400 text-sm mt-0.5">{job.companyName}</p>
+            <h3 className="font-semibold dark:text-white text-gray-900 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">{job.title}</h3>
+            <p className="dark:text-gray-400 text-gray-500 text-sm mt-0.5">{job.companyName}</p>
           </div>
         </div>
         <span className={typeColors[job.type] || 'badge-blue'}>{job.type}</span>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-3 text-sm text-gray-400">
+      <div className="mt-4 flex flex-wrap gap-3 text-sm dark:text-gray-400 text-gray-500">
         <span className="flex items-center gap-1.5"><FiMapPin size={13} />{job.location}</span>
         {job.salary && <span className="flex items-center gap-1.5"><FiDollarSign size={13} />{job.salary}</span>}
         {job.experience && <span className="flex items-center gap-1.5"><FiBriefcase size={13} />{job.experience}</span>}
@@ -36,15 +36,15 @@ export default function JobCard({ job }) {
       {job.skills?.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
           {job.skills.slice(0, 4).map(s => (
-            <span key={s} className="px-2.5 py-1 bg-gray-800 text-gray-300 text-xs rounded-lg border border-gray-700">{s}</span>
+            <span key={s} className="px-2.5 py-1 dark:bg-gray-800 bg-slate-100 dark:text-gray-300 text-gray-600 text-xs rounded-lg dark:border-gray-700 border border-slate-200">{s}</span>
           ))}
-          {job.skills.length > 4 && <span className="px-2.5 py-1 text-gray-500 text-xs">+{job.skills.length - 4}</span>}
+          {job.skills.length > 4 && <span className="px-2.5 py-1 dark:text-gray-500 text-gray-400 text-xs">+{job.skills.length - 4}</span>}
         </div>
       )}
 
-      <div className="mt-4 pt-4 border-t border-gray-800 flex items-center justify-between">
-        <span className="flex items-center gap-1.5 text-xs text-gray-500"><FiUsers size={12} />{job.applicantsCount} applicants</span>
-        <span className="text-primary-400 text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">View Details →</span>
+      <div className="mt-4 pt-4 dark:border-t dark:border-gray-800 border-t border-slate-100 flex items-center justify-between">
+        <span className="flex items-center gap-1.5 text-xs dark:text-gray-500 text-gray-400"><FiUsers size={12} />{job.applicantsCount} applicants</span>
+        <span className="text-primary-600 dark:text-primary-400 text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">View Details →</span>
       </div>
     </Link>
   )

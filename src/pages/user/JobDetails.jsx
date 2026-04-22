@@ -51,7 +51,7 @@ export default function JobDetails() {
   return (
     <div className="min-h-screen pt-20 px-4 pb-12">
       <div className="max-w-4xl mx-auto">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mt-6 mb-6">
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 dark:text-gray-400 dark:hover:text-white text-gray-500 hover:text-gray-900 transition-colors mt-6 mb-6">
           <FiArrowLeft size={16} /> Back to Jobs
         </button>
 
@@ -64,9 +64,9 @@ export default function JobDetails() {
                   : <span className="text-primary-400 font-bold text-2xl">{job.companyName?.[0]}</span>}
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">{job.title}</h1>
-                <p className="text-primary-400 font-medium mt-1">{job.companyName}</p>
-                <div className="flex flex-wrap gap-3 mt-3 text-sm text-gray-400">
+                <h1 className="text-2xl font-bold dark:text-white text-gray-900">{job.title}</h1>
+                <p className="text-primary-600 dark:text-primary-400 font-medium mt-1">{job.companyName}</p>
+                <div className="flex flex-wrap gap-3 mt-3 text-sm dark:text-gray-400 text-gray-500">
                   <span className="flex items-center gap-1.5"><FiMapPin size={13} />{job.location}</span>
                   {job.salary && <span className="flex items-center gap-1.5"><FiDollarSign size={13} />{job.salary}</span>}
                   {job.experience && <span className="flex items-center gap-1.5"><FiBriefcase size={13} />{job.experience}</span>}
@@ -88,7 +88,7 @@ export default function JobDetails() {
           {job.skills?.length > 0 && (
             <div className="mt-5 flex flex-wrap gap-2">
               {job.skills.map(s => (
-                <span key={s} className="px-3 py-1.5 bg-gray-800 text-gray-300 text-sm rounded-lg border border-gray-700">{s}</span>
+                <span key={s} className="px-3 py-1.5 dark:bg-gray-800 bg-slate-100 dark:text-gray-300 text-gray-700 text-sm rounded-lg dark:border-gray-700 border border-slate-200">{s}</span>
               ))}
             </div>
           )}
@@ -126,16 +126,16 @@ export default function JobDetails() {
         <div className="grid md:grid-cols-3 gap-6">
           <div className="md:col-span-2 space-y-6">
             <div className="card">
-              <h2 className="text-lg font-semibold text-white mb-4">Job Description</h2>
-              <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{job.description}</p>
+              <h2 className="text-lg font-semibold dark:text-white text-gray-900 mb-4">Job Description</h2>
+              <p className="dark:text-gray-300 text-gray-600 leading-relaxed whitespace-pre-wrap">{job.description}</p>
             </div>
             {job.requirements?.length > 0 && (
               <div className="card">
-                <h2 className="text-lg font-semibold text-white mb-4">Requirements</h2>
+                <h2 className="text-lg font-semibold dark:text-white text-gray-900 mb-4">Requirements</h2>
                 <ul className="space-y-2">
                   {job.requirements.map((r, i) => (
-                    <li key={i} className="flex items-start gap-2 text-gray-300">
-                      <span className="text-primary-400 mt-1">•</span> {r}
+                    <li key={i} className="flex items-start gap-2 dark:text-gray-300 text-gray-600">
+                      <span className="text-primary-500 dark:text-primary-400 mt-1">•</span> {r}
                     </li>
                   ))}
                 </ul>
@@ -144,7 +144,7 @@ export default function JobDetails() {
           </div>
           <div className="space-y-4">
             <div className="card">
-              <h3 className="font-semibold text-white mb-3">Job Overview</h3>
+              <h3 className="font-semibold dark:text-white text-gray-900 mb-3">Job Overview</h3>
               <div className="space-y-3 text-sm">
                 {[
                   { label: 'Job Type', value: job.type },
@@ -154,8 +154,8 @@ export default function JobDetails() {
                   { label: 'Category', value: job.category || 'General' }
                 ].map(({ label, value }) => (
                   <div key={label} className="flex justify-between">
-                    <span className="text-gray-500">{label}</span>
-                    <span className="text-gray-300 font-medium">{value}</span>
+                    <span className="dark:text-gray-500 text-gray-400">{label}</span>
+                    <span className="dark:text-gray-300 text-gray-700 font-medium">{value}</span>
                   </div>
                 ))}
               </div>

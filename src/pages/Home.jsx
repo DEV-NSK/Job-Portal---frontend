@@ -25,21 +25,21 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden bg-grid">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/30 via-gray-950 to-accent-900/20 pointer-events-none" />
+        <div className="absolute inset-0 dark:bg-gradient-to-br dark:from-primary-900/30 dark:via-gray-950 dark:to-accent-900/20 bg-gradient-to-br from-primary-50 via-slate-50 to-accent-50/30 pointer-events-none" />
         <div className="absolute top-20 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-4xl mx-auto text-center relative animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full text-sm text-primary-400 mb-6 border border-primary-500/20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full text-sm text-primary-600 dark:text-primary-400 mb-6 border border-primary-500/20">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             1,200+ new jobs this week
           </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6">
+          <h1 className="text-5xl md:text-7xl font-extrabold dark:text-white text-gray-900 leading-tight mb-6">
             Find Your{' '}
             <span className="text-gradient">Dream Job</span>
             <br />Today
           </h1>
-          <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
+          <p className="text-xl dark:text-gray-400 text-gray-600 mb-10 max-w-2xl mx-auto">
             Connect with top companies and discover opportunities that match your skills and ambitions.
           </p>
 
@@ -62,11 +62,11 @@ export default function Home() {
           {stats.map(({ label, value, icon: Icon }) => (
             <div key={label} className="stat-card">
               <div className="w-12 h-12 bg-gradient-to-br from-primary-600/20 to-accent-600/20 rounded-xl flex items-center justify-center border border-primary-500/20">
-                <Icon className="text-primary-400" size={20} />
+                <Icon className="text-primary-500 dark:text-primary-400" size={20} />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{value}</div>
-                <div className="text-gray-400 text-sm">{label}</div>
+                <div className="text-2xl font-bold dark:text-white text-gray-900">{value}</div>
+                <div className="dark:text-gray-400 text-gray-500 text-sm">{label}</div>
               </div>
             </div>
           ))}
@@ -77,16 +77,16 @@ export default function Home() {
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-3">Browse by Category</h2>
-            <p className="text-gray-400">Explore opportunities across industries</p>
+            <h2 className="text-3xl font-bold dark:text-white text-gray-900 mb-3">Browse by Category</h2>
+            <p className="dark:text-gray-400 text-gray-500">Explore opportunities across industries</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {categories.map(cat => (
               <Link key={cat.name} to={`/jobs?search=${cat.name}`}
                 className="card text-center hover:scale-105 hover:border-primary-500/30 group">
                 <div className="text-3xl mb-3">{cat.icon}</div>
-                <div className="font-semibold text-white text-sm group-hover:text-primary-400 transition-colors">{cat.name}</div>
-                <div className="text-gray-500 text-xs mt-1">{cat.count}</div>
+                <div className="font-semibold dark:text-white text-gray-800 text-sm group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{cat.name}</div>
+                <div className="dark:text-gray-500 text-gray-400 text-xs mt-1">{cat.count}</div>
               </Link>
             ))}
           </div>

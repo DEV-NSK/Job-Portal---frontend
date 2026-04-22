@@ -31,23 +31,23 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-grid">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-gray-950 to-accent-900/20 pointer-events-none" />
+      <div className="absolute inset-0 dark:bg-gradient-to-br dark:from-primary-900/20 dark:via-gray-950 dark:to-accent-900/20 bg-gradient-to-br from-primary-50 via-slate-50 to-accent-50/30 pointer-events-none" />
       <div className="w-full max-w-md relative animate-slide-up">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl mb-4 shadow-lg shadow-primary-500/25">
             <FiBriefcase className="text-white text-2xl" />
           </div>
-          <h1 className="text-3xl font-bold text-white">Create account</h1>
-          <p className="text-gray-400 mt-2">Join thousands of professionals</p>
+          <h1 className="text-3xl font-bold dark:text-white text-gray-900">Create account</h1>
+          <p className="dark:text-gray-400 text-gray-500 mt-2">Join thousands of professionals</p>
         </div>
 
         <div className="card glow">
           {/* Role Toggle */}
-          <div className="flex bg-gray-800/50 rounded-xl p-1 mb-6">
+          <div className="flex dark:bg-gray-800/50 bg-slate-100 rounded-xl p-1 mb-6">
             {['user', 'employer'].map(r => (
               <button key={r} type="button"
                 onClick={() => setForm({ ...form, role: r })}
-                className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 capitalize ${form.role === r ? 'bg-gradient-to-r from-primary-600 to-accent-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>
+                className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 capitalize ${form.role === r ? 'bg-gradient-to-r from-primary-600 to-accent-600 text-white shadow-lg' : 'dark:text-gray-400 dark:hover:text-white text-gray-500 hover:text-gray-900'}`}>
                 {r === 'user' ? '👤 Job Seeker' : '🏢 Employer'}
               </button>
             ))}
@@ -55,9 +55,9 @@ export default function Register() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+              <label className="block text-sm font-medium dark:text-gray-300 text-gray-700 mb-2">Full Name</label>
               <div className="relative">
-                <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
+                <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 text-slate-400" size={16} />
                 <input type="text" placeholder="John Doe" required
                   className="input-field pl-10"
                   value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
@@ -65,9 +65,9 @@ export default function Register() {
             </div>
             {form.role === 'employer' && (
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Company Name</label>
+                <label className="block text-sm font-medium dark:text-gray-300 text-gray-700 mb-2">Company Name</label>
                 <div className="relative">
-                  <FiBriefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
+                  <FiBriefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 text-slate-400" size={16} />
                   <input type="text" placeholder="Acme Corp" required
                     className="input-field pl-10"
                     value={form.companyName} onChange={e => setForm({ ...form, companyName: e.target.value })} />
@@ -75,23 +75,23 @@ export default function Register() {
               </div>
             )}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <label className="block text-sm font-medium dark:text-gray-300 text-gray-700 mb-2">Email</label>
               <div className="relative">
-                <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
+                <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 text-slate-400" size={16} />
                 <input type="email" placeholder="you@example.com" required
                   className="input-field pl-10"
                   value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+              <label className="block text-sm font-medium dark:text-gray-300 text-gray-700 mb-2">Password</label>
               <div className="relative">
-                <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
+                <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 text-slate-400" size={16} />
                 <input type={showPass ? 'text' : 'password'} placeholder="Min. 6 characters" required
                   className="input-field pl-10 pr-10"
                   value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />
                 <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300">
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 dark:hover:text-gray-300 text-slate-400 hover:text-gray-600">
                   {showPass ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                 </button>
               </div>
@@ -101,9 +101,9 @@ export default function Register() {
               {loading ? 'Creating account...' : 'Create Account'}
             </button>
           </form>
-          <p className="text-center text-gray-400 text-sm mt-6">
+          <p className="text-center dark:text-gray-400 text-gray-500 text-sm mt-6">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary-400 hover:text-primary-300 font-medium">Sign in</Link>
+            <Link to="/login" className="text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300 font-medium">Sign in</Link>
           </p>
         </div>
       </div>

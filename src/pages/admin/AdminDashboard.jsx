@@ -23,8 +23,8 @@ export default function AdminDashboard() {
     <div className="min-h-screen pt-20 px-4 pb-12">
       <div className="max-w-7xl mx-auto">
         <div className="py-8">
-          <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
-          <p className="text-gray-400 mt-1">Platform overview and management</p>
+          <h1 className="text-3xl font-bold dark:text-white text-gray-900">Admin Dashboard</h1>
+          <p className="dark:text-gray-400 text-gray-500 mt-1">Platform overview and management</p>
         </div>
 
         {/* Stats Grid */}
@@ -51,11 +51,11 @@ export default function AdminDashboard() {
             { title: 'Manage Posts', desc: 'Moderate social feed content', link: '/admin/posts', icon: FiFileText, color: 'text-purple-400' },
           ].map(({ title, desc, link, icon: Icon, color }) => (
             <Link key={title} to={link} className="card hover:scale-[1.02] hover:border-gray-600 transition-all group">
-              <div className={`w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center ${color} mb-4 group-hover:scale-110 transition-transform`}>
+              <div className={`w-12 h-12 rounded-xl dark:bg-gray-800 bg-slate-100 flex items-center justify-center ${color} mb-4 group-hover:scale-110 transition-transform`}>
                 <Icon size={20} />
               </div>
-              <h3 className="font-semibold text-white mb-1">{title}</h3>
-              <p className="text-gray-400 text-sm">{desc}</p>
+              <h3 className="font-semibold dark:text-white text-gray-900 mb-1">{title}</h3>
+              <p className="dark:text-gray-400 text-gray-500 text-sm">{desc}</p>
               <span className="text-primary-400 text-sm mt-3 inline-block group-hover:translate-x-1 transition-transform">Go →</span>
             </Link>
           ))}

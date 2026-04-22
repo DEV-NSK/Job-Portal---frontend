@@ -46,19 +46,19 @@ export default function JobListings() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="py-10 text-center">
-          <h1 className="text-4xl font-bold text-white mb-2">Find Your Next Role</h1>
-          <p className="text-gray-400">{total} jobs available</p>
+          <h1 className="text-4xl font-bold dark:text-white text-gray-900 mb-2">Find Your Next Role</h1>
+          <p className="dark:text-gray-400 text-gray-500">{total} jobs available</p>
         </div>
 
         {/* Search Bar */}
-        <form onSubmit={handleSearch} className="glass-dark rounded-2xl p-4 mb-8 flex flex-col md:flex-row gap-3">
+        <form onSubmit={handleSearch} className="card mb-8 flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
-            <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
+            <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 text-slate-400" size={16} />
             <input className="input-field pl-10" placeholder="Job title, company, or keyword..."
               value={filters.search} onChange={e => setFilters({ ...filters, search: e.target.value })} />
           </div>
           <div className="relative flex-1">
-            <FiMapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
+            <FiMapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 text-slate-400" size={16} />
             <input className="input-field pl-10" placeholder="Location..."
               value={filters.location} onChange={e => setFilters({ ...filters, location: e.target.value })} />
           </div>
@@ -81,8 +81,8 @@ export default function JobListings() {
         {loading ? <LoadingSkeleton count={6} /> : jobs.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-white mb-2">No jobs found</h3>
-            <p className="text-gray-400">Try adjusting your search filters</p>
+            <h3 className="text-xl font-semibold dark:text-white text-gray-900 mb-2">No jobs found</h3>
+            <p className="dark:text-gray-400 text-gray-500">Try adjusting your search filters</p>
           </div>
         ) : (
           <>
@@ -93,7 +93,11 @@ export default function JobListings() {
               <div className="flex justify-center gap-2 mt-10">
                 {Array.from({ length: pages }, (_, i) => i + 1).map(p => (
                   <button key={p} onClick={() => setPage(p)}
-                    className={`w-10 h-10 rounded-xl font-medium transition-all ${p === page ? 'bg-primary-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
+                    className={`w-10 h-10 rounded-xl font-medium transition-all ${
+                      p === page
+                        ? 'bg-primary-600 text-white'
+                        : 'dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 bg-white text-gray-600 hover:bg-slate-100 border border-slate-200'
+                    }`}>
                     {p}
                   </button>
                 ))}

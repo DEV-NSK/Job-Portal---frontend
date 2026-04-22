@@ -34,8 +34,8 @@ export default function ManageJobs() {
       <div className="max-w-5xl mx-auto">
         <div className="py-8 flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white">Manage Jobs</h1>
-            <p className="text-gray-400 mt-1">{jobs.length} job{jobs.length !== 1 ? 's' : ''} posted</p>
+            <h1 className="text-3xl font-bold dark:text-white text-gray-900">Manage Jobs</h1>
+            <p className="dark:text-gray-400 text-gray-500 mt-1">{jobs.length} job{jobs.length !== 1 ? 's' : ''} posted</p>
           </div>
           <Link to="/employer/jobs/create" className="btn-primary flex items-center gap-2">
             <FiPlus size={16} /> Post New Job
@@ -57,14 +57,14 @@ export default function ManageJobs() {
                 <div className="flex items-start justify-between gap-4 flex-wrap">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="font-semibold text-white">{job.title}</h3>
+                      <h3 className="font-semibold dark:text-white text-gray-900">{job.title}</h3>
                       <span className={`badge text-xs ${job.isActive ? 'badge-green' : 'badge-red'}`}>
                         {job.isActive ? 'Active' : 'Closed'}
                       </span>
                       <span className="badge-blue text-xs">{job.type}</span>
                     </div>
-                    <p className="text-gray-400 text-sm mt-1">{job.location} {job.salary && `· ${job.salary}`}</p>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                    <p className="dark:text-gray-400 text-gray-500 text-sm mt-1">{job.location} {job.salary && `· ${job.salary}`}</p>
+                    <div className="flex items-center gap-4 mt-2 text-xs dark:text-gray-500 text-gray-400">
                       <span className="flex items-center gap-1"><FiUsers size={11} />{job.applicantsCount} applicants</span>
                       <span>{formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</span>
                     </div>

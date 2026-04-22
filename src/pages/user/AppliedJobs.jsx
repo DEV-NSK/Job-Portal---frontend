@@ -29,15 +29,15 @@ export default function AppliedJobs() {
     <div className="min-h-screen pt-20 px-4 pb-12">
       <div className="max-w-4xl mx-auto">
         <div className="py-8">
-          <h1 className="text-3xl font-bold text-white">Applied Jobs</h1>
-          <p className="text-gray-400 mt-1">{apps.length} application{apps.length !== 1 ? 's' : ''}</p>
+          <h1 className="text-3xl font-bold dark:text-white text-gray-900">Applied Jobs</h1>
+          <p className="dark:text-gray-400 text-gray-500 mt-1">{apps.length} application{apps.length !== 1 ? 's' : ''}</p>
         </div>
 
         {apps.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">📋</div>
-            <h3 className="text-xl font-semibold text-white mb-2">No applications yet</h3>
-            <p className="text-gray-400 mb-6">Start applying to jobs to track them here</p>
+            <h3 className="text-xl font-semibold dark:text-white text-gray-900 mb-2">No applications yet</h3>
+            <p className="dark:text-gray-400 text-gray-500 mb-6">Start applying to jobs to track them here</p>
             <Link to="/jobs" className="btn-primary inline-flex">Browse Jobs</Link>
           </div>
         ) : (
@@ -52,11 +52,11 @@ export default function AppliedJobs() {
                         : <span className="text-primary-400 font-bold">{app.job?.companyName?.[0]}</span>}
                     </div>
                     <div>
-                      <Link to={`/jobs/${app.job?._id}`} className="font-semibold text-white hover:text-primary-400 transition-colors">
+                      <Link to={`/jobs/${app.job?._id}`} className="font-semibold dark:text-white text-gray-900 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                         {app.job?.title}
                       </Link>
-                      <p className="text-gray-400 text-sm">{app.job?.companyName}</p>
-                      <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-500">
+                      <p className="dark:text-gray-400 text-gray-500 text-sm">{app.job?.companyName}</p>
+                      <div className="flex flex-wrap gap-3 mt-2 text-xs dark:text-gray-500 text-gray-400">
                         <span className="flex items-center gap-1"><FiMapPin size={11} />{app.job?.location}</span>
                         <span className="flex items-center gap-1"><FiBriefcase size={11} />{app.job?.type}</span>
                         <span className="flex items-center gap-1"><FiClock size={11} />{formatDistanceToNow(new Date(app.createdAt), { addSuffix: true })}</span>
@@ -68,9 +68,9 @@ export default function AppliedJobs() {
                   </span>
                 </div>
                 {app.coverLetter && (
-                  <div className="mt-4 pt-4 border-t border-gray-800">
-                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-2"><FiFileText size={12} /> Cover Letter</div>
-                    <p className="text-gray-400 text-sm line-clamp-2">{app.coverLetter}</p>
+                  <div className="mt-4 pt-4 dark:border-t dark:border-gray-800 border-t border-slate-100">
+                    <div className="flex items-center gap-2 text-xs dark:text-gray-500 text-gray-400 mb-2"><FiFileText size={12} /> Cover Letter</div>
+                    <p className="dark:text-gray-400 text-gray-500 text-sm line-clamp-2">{app.coverLetter}</p>
                   </div>
                 )}
               </div>

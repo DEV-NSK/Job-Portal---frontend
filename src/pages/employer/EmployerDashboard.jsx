@@ -32,8 +32,8 @@ export default function EmployerDashboard() {
       <div className="max-w-7xl mx-auto">
         <div className="py-8 flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white">Employer Dashboard</h1>
-            <p className="text-gray-400 mt-1">Welcome back, {user?.name}</p>
+            <h1 className="text-3xl font-bold dark:text-white text-gray-900">Employer Dashboard</h1>
+            <p className="dark:text-gray-400 text-gray-500 mt-1">Welcome back, {user?.name}</p>
           </div>
           <Link to="/employer/jobs/create" className="btn-primary flex items-center gap-2">
             <FiPlus size={16} /> Post New Job
@@ -61,7 +61,7 @@ export default function EmployerDashboard() {
           {/* Recent Jobs */}
           <div className="card">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="font-semibold text-white">Recent Job Posts</h2>
+              <h2 className="font-semibold dark:text-white text-gray-900">Recent Job Posts</h2>
               <Link to="/employer/jobs" className="text-primary-400 text-sm hover:text-primary-300">View all →</Link>
             </div>
             {loading ? (
@@ -74,13 +74,13 @@ export default function EmployerDashboard() {
             ) : (
               <div className="space-y-3">
                 {jobs.slice(0, 5).map(job => (
-                  <div key={job._id} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-xl border border-gray-700/50 hover:border-gray-600 transition-all">
+                  <div key={job._id} className="flex items-center justify-between p-3 dark:bg-gray-800/50 bg-slate-50 rounded-xl dark:border-gray-700/50 border border-slate-200 dark:hover:border-gray-600 hover:border-slate-300 transition-all">
                     <div>
-                      <p className="font-medium text-white text-sm">{job.title}</p>
-                      <p className="text-gray-500 text-xs mt-0.5">{formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</p>
+                      <p className="font-medium dark:text-white text-gray-900 text-sm">{job.title}</p>
+                      <p className="dark:text-gray-500 text-gray-400 text-xs mt-0.5">{formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1 text-xs text-gray-400"><FiUsers size={11} />{job.applicantsCount}</span>
+                      <span className="flex items-center gap-1 text-xs dark:text-gray-400 text-gray-500"><FiUsers size={11} />{job.applicantsCount}</span>
                       <span className={`badge text-xs ${job.isActive ? 'badge-green' : 'badge-red'}`}>{job.isActive ? 'Active' : 'Closed'}</span>
                     </div>
                   </div>
@@ -92,7 +92,7 @@ export default function EmployerDashboard() {
           {/* Recent Applications */}
           <div className="card">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="font-semibold text-white">Recent Applications</h2>
+              <h2 className="font-semibold dark:text-white text-gray-900">Recent Applications</h2>
               <Link to="/employer/applicants" className="text-primary-400 text-sm hover:text-primary-300">View all →</Link>
             </div>
             {loading ? (
@@ -104,14 +104,14 @@ export default function EmployerDashboard() {
             ) : (
               <div className="space-y-3">
                 {apps.slice(0, 5).map(app => (
-                  <div key={app._id} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-xl border border-gray-700/50">
+                  <div key={app._id} className="flex items-center justify-between p-3 dark:bg-gray-800/50 bg-slate-50 rounded-xl dark:border-gray-700/50 border border-slate-200">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/50 to-accent-500/50 flex items-center justify-center text-xs font-bold overflow-hidden">
                         {app.applicant?.avatar ? <img src={app.applicant.avatar} alt="" className="w-full h-full object-cover" /> : app.applicant?.name?.[0]?.toUpperCase()}
                       </div>
                       <div>
-                        <p className="font-medium text-white text-sm">{app.applicant?.name}</p>
-                        <p className="text-gray-500 text-xs">{app.job?.title}</p>
+                        <p className="font-medium dark:text-white text-gray-900 text-sm">{app.applicant?.name}</p>
+                        <p className="dark:text-gray-500 text-gray-400 text-xs">{app.job?.title}</p>
                       </div>
                     </div>
                     <span className={`badge text-xs ${app.status === 'pending' ? 'badge-yellow' : app.status === 'accepted' ? 'badge-green' : app.status === 'rejected' ? 'badge-red' : 'badge-blue'}`}>
