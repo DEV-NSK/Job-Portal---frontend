@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext'
 import { motion } from 'framer-motion'
 import {
   FiBriefcase, FiUsers, FiPlus, FiTrendingUp, FiClock,
-  FiArrowRight, FiEye, FiEdit2, FiActivity
+  FiArrowRight, FiEye, FiEdit2, FiActivity, FiAlertCircle
 } from 'react-icons/fi'
 import { formatDistanceToNow } from 'date-fns'
 
@@ -60,6 +60,19 @@ export default function EmployerDashboard() {
           </Link>
         </div>
 
+        {/* Pending approval banner */}
+        {user?.approvalStatus === 'pending' && (
+          <div className="mb-6 flex items-start gap-3 p-4 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30">
+            <FiAlertCircle size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-[13.5px] font-semibold text-amber-800 dark:text-amber-400">Account Pending Approval</p>
+              <p className="text-[12.5px] text-amber-700 dark:text-amber-500 mt-0.5">
+                Your employer account is under review. You'll be notified once an admin approves your account and you can start posting jobs.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* ── Stats ── */}
         <motion.div
           variants={stagger.container}
@@ -75,11 +88,11 @@ export default function EmployerDashboard() {
                     <s.icon size={18} />
                   </div>
                 </div>
-                <div className="text-[28px] font-bold text-white leading-none mb-1">
+                <div className="text-[28px] font-bold text-slate-900 dark:text-white leading-none mb-1">
                   {loading ? <div className="skeleton h-7 w-12 rounded" /> : s.value}
                 </div>
-                <div className="text-[13px] text-slate-500 mb-1">{s.label}</div>
-                <div className="text-[11px] text-slate-600">{s.change}</div>
+                <div className="text-[13px] text-slate-600 dark:text-slate-500 mb-1">{s.label}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-600">{s.change}</div>
               </div>
             </motion.div>
           ))}
@@ -146,7 +159,7 @@ export default function EmployerDashboard() {
                           {job.isActive ? 'Active' : 'Closed'}
                         </span>
                         <Link to={`/employer/jobs/edit/${job._id}`}
-                          className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-600 hover:text-slate-300 hover:bg-white/5 transition-all opacity-0 group-hover:opacity-100">
+                          className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-600 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-all opacity-0 group-hover:opacity-100">
                           <FiEdit2 size={13} />
                         </Link>
                       </div>
@@ -222,12 +235,13 @@ export default function EmployerDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4"
+          className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-4"
         >
           {[
             { to: '/employer/jobs/create', icon: FiPlus, label: 'Post New Job', desc: 'Create a new job listing', color: 'text-indigo-400', bg: 'bg-indigo-500/10 border-indigo-500/20' },
             { to: '/employer/applicants', icon: FiEye, label: 'Review Applicants', desc: 'View and manage applications', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
-            { to: '/employer/profile', icon: FiBriefcase, label: 'Company Profile', desc: 'Update your company info', color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' },
+            { to: '/employer/recruiter', icon: FiTrendingUp, label: '🚀 Recruiter AI', desc: 'Funnel, ranking, shortlist & more', color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' },
+            { to: '/employer/profile', icon: FiBriefcase, label: 'Company Profile', desc: 'Update your company info', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
           ].map(a => (
             <Link key={a.to} to={a.to}
               className="card card-hover flex items-center gap-4 group">
@@ -235,10 +249,10 @@ export default function EmployerDashboard() {
                 <a.icon size={18} />
               </div>
               <div>
-                <div className="text-[14px] font-semibold text-slate-800 dark:text-slate-200">{a.label}</div>
-                <div className="text-[12px] text-slate-600">{a.desc}</div>
+                <div className="text-[14px] font-semibold text-slate-900 dark:text-slate-200">{a.label}</div>
+                <div className="text-[12px] text-slate-600 dark:text-slate-600">{a.desc}</div>
               </div>
-              <FiArrowRight size={14} className="text-slate-700 group-hover:text-slate-400 ml-auto transition-colors" />
+              <FiArrowRight size={14} className="text-slate-500 dark:text-slate-700 group-hover:text-slate-700 dark:group-hover:text-slate-400 ml-auto transition-colors" />
             </Link>
           ))}
         </motion.div>

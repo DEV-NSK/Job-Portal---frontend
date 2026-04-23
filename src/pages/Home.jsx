@@ -65,14 +65,6 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
           <div className="max-w-3xl mx-auto text-center">
 
-            {/* Badge */}
-            <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-medium mb-8 border
-                         text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-500/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              1,200+ new jobs posted this week
-            </motion.div>
-
             {/* Headline */}
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
               className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 dark:text-white leading-[1.08] tracking-tight mb-6">
@@ -89,23 +81,30 @@ export default function Home() {
 
             {/* Search */}
             <motion.form initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-              onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto mb-8">
+              onSubmit={handleSearch} className="flex items-center gap-2 w-full max-w-xl mx-auto mb-6 bg-white dark:bg-[#0a0f1a] rounded-lg shadow-sm border border-slate-200 dark:border-[#1e2d3d] p-1.5">
               <div className="relative flex-1">
-                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                <input type="text" placeholder="Job title, company, or skill..."
+                <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                <input type="text" placeholder="Search for your dream job..."
                   value={search} onChange={e => setSearch(e.target.value)}
-                  className="input-field pl-11 py-3.5 shadow-sm" />
+                  className="w-full pl-9 pr-3 py-2 text-sm rounded-md bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none" />
               </div>
-              <button type="submit" className="btn-primary px-6 py-3.5 flex-shrink-0">Search Jobs</button>
+              <div className="w-px h-6 bg-slate-200 dark:bg-[#1e2d3d]" />
+              <div className="flex-1 max-w-[200px]">
+                <input type="text" placeholder="Location..."
+                  className="w-full px-3 py-2 text-sm rounded-md bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none" />
+              </div>
+              <button type="submit" className="px-4 py-2 text-sm font-medium rounded-md bg-orange-500 hover:bg-orange-600 text-white transition-all flex items-center gap-1.5 flex-shrink-0">
+                Search Jobs <FiArrowRight size={14} />
+              </button>
             </motion.form>
 
             {/* Tags */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-              className="flex flex-wrap items-center justify-center gap-2">
-              <span className="text-[12px] text-slate-400 dark:text-slate-600">Popular:</span>
+              className="flex flex-wrap items-center justify-center gap-2 mb-4">
+              <span className="text-xs text-slate-400 dark:text-slate-600">Popular:</span>
               {['React Developer', 'Product Manager', 'Data Scientist', 'UX Designer'].map(tag => (
                 <Link key={tag} to={`/jobs?search=${encodeURIComponent(tag)}`}
-                  className="text-[12px] px-3 py-1 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors
+                  className="text-xs px-2.5 py-1 rounded-md text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors
                              bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.07] hover:border-indigo-200 dark:hover:border-indigo-500/30">
                   {tag}
                 </Link>
@@ -177,15 +176,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <div className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">Why JobPortal</div>
+              <div className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">Why HIRA</div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-5 leading-tight">
                 Everything you need to<br /><span className="text-gradient">accelerate your career</span>
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-lg mb-8 leading-relaxed">
                 We combine AI-powered tools with a curated job marketplace to give you an unfair advantage in your job search.
               </p>
-              <Link to={user ? '/features' : '/register'} className="btn-primary inline-flex gap-2">
-                {user ? 'Explore AI Features' : 'Start for free'} <FiArrowRight size={16} />
+              <Link to={user ? '/features' : '/register'} className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white transition-all shadow-sm hover:shadow-md">
+                {user ? 'Explore AI Features' : 'Start for free'} <FiArrowRight size={14} />
               </Link>
             </motion.div>
 
@@ -227,14 +226,14 @@ export default function Home() {
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to find your next role?</h2>
                 <p className="text-white/80 dark:text-slate-400 text-lg mb-8 max-w-lg mx-auto">
-                  Join 50,000+ professionals who found their dream job through JobPortal.
+                  Join 50,000+ professionals who found their dream job through HIRA.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link to="/register" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-[15px] font-semibold rounded-xl transition-all
-                                                   bg-white text-indigo-700 hover:bg-indigo-50 dark:bg-indigo-600 dark:text-white dark:hover:bg-indigo-500">
-                    Create free account <FiArrowRight size={16} />
+                  <Link to="/register" className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-lg transition-all
+                                                   bg-white text-indigo-700 hover:bg-indigo-50 dark:bg-indigo-600 dark:text-white dark:hover:bg-indigo-500 shadow-sm hover:shadow-md">
+                    Create free account <FiArrowRight size={14} />
                   </Link>
-                  <Link to="/jobs" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-[15px] font-semibold rounded-xl transition-all
+                  <Link to="/jobs" className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-lg transition-all
                                               border border-white/30 text-white hover:bg-white/10">
                     Browse jobs
                   </Link>

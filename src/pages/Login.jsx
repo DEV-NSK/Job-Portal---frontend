@@ -64,7 +64,7 @@ export default function Login() {
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
             <FiBriefcase className="text-white" size={16} />
           </div>
-          <span className="text-[16px] font-bold text-gradient">JobPortal</span>
+          <span className="text-[16px] font-bold text-gradient">HIRA</span>
         </div>
 
         {/* Headline */}
@@ -112,7 +112,7 @@ export default function Login() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
               <FiBriefcase className="text-white" size={14} />
             </div>
-            <span className="text-[15px] font-bold text-gradient">JobPortal</span>
+            <span className="text-[15px] font-bold text-gradient">HIRA</span>
           </div>
 
           <div className="mb-8">

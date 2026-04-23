@@ -37,8 +37,13 @@ export default function Register() {
     try {
       const { data } = await authAPI.register(form)
       login(data.token, data.user)
-      toast.success('Account created! Welcome aboard 🎉')
-      navigate(getRedirectTarget(data.user.role), { replace: true })
+      if (data.user.role === 'employer') {
+        toast.success('Account created! Awaiting admin approval before you can post jobs.')
+        navigate('/employer/dashboard', { replace: true })
+      } else {
+        toast.success('Account created! Welcome aboard 🎉')
+        navigate(getRedirectTarget(data.user.role), { replace: true })
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed')
     } finally { setLoading(false) }
@@ -58,7 +63,7 @@ export default function Register() {
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
             <FiBriefcase className="text-white" size={16} />
           </div>
-          <span className="text-[16px] font-bold text-gradient">JobPortal</span>
+          <span className="text-[16px] font-bold text-gradient">HIRA</span>
         </div>
 
         <div className="relative">
@@ -96,17 +101,17 @@ export default function Register() {
           className="w-full max-w-md py-8">
 
           <div className="lg:hidden flex items-center gap-2.5 mb-8">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 dark:from-blue-500 dark:to-blue-600 flex items-center justify-center">
               <FiBriefcase className="text-white" size={14} />
             </div>
-            <span className="text-[15px] font-bold text-gradient">JobPortal</span>
+            <span className="text-[15px] font-bold text-gradient">HIRA</span>
           </div>
 
           <div className="mb-8">
             <h1 className="text-[28px] font-bold text-slate-900 dark:text-white mb-2">Create your account</h1>
             <p className="text-slate-500 dark:text-slate-400 text-[14px]">
               Already have an account?{' '}
-              <Link to="/login" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors">Sign in</Link>
+              <Link to="/login" className="text-orange-600 dark:text-blue-400 hover:text-orange-700 dark:hover:text-blue-300 font-medium transition-colors">Sign in</Link>
             </p>
           </div>
 
@@ -116,7 +121,7 @@ export default function Register() {
               <button key={r.value} type="button" onClick={() => setForm({ ...form, role: r.value })}
                 className={`flex-1 py-2.5 rounded-lg text-[13.5px] font-semibold transition-all ${
                   form.role === r.value
-                    ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/20'
+                    ? 'bg-gradient-to-r from-orange-600 to-orange-500 dark:from-blue-600 dark:to-blue-500 text-white shadow-lg shadow-orange-500/20 dark:shadow-blue-500/20'
                     : 'text-slate-500 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
                 }`}>
                 {r.label}

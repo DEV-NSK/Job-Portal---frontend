@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
 import { useTheme } from './context/ThemeContext'
+import { NotificationProvider } from './context/NotificationContext'
 import ProtectedRoute from './components/shared/ProtectedRoute'
 import Navbar from './components/shared/Navbar'
 
@@ -9,6 +10,8 @@ import Navbar from './components/shared/Navbar'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import CandidateProfile from './pages/CandidateProfile'
+import CompanyProfile from './pages/CompanyProfile'
 
 // User pages
 import JobListings from './pages/user/JobListings'
@@ -41,12 +44,25 @@ import ManageJobs from './pages/employer/ManageJobs'
 import EditJob from './pages/employer/EditJob'
 import Applicants from './pages/employer/Applicants'
 import EmployerProfile from './pages/employer/EmployerProfile'
+// Recruiter Super Dashboard (Features 11-20)
+import RecruiterDashboard from './pages/employer/RecruiterDashboard'
+import HiringFunnel from './pages/employer/HiringFunnel'
+import CandidateRanking from './pages/employer/CandidateRanking'
+import AutoShortlist from './pages/employer/AutoShortlist'
+import CandidateTimelineView from './pages/employer/CandidateTimelineView'
+import BlindHiring from './pages/employer/BlindHiring'
+import SkillJobPosting from './pages/employer/SkillJobPosting'
+import JobHealthDashboard from './pages/employer/JobHealthDashboard'
+import TalentPools from './pages/employer/TalentPools'
+// Engagement features (Features 19, 21-25 - user-facing)
+import MicroInternships from './pages/user/MicroInternships'
 
 // Admin pages
 import AdminDashboard from './pages/admin/AdminDashboard'
 import ManageUsers from './pages/admin/ManageUsers'
 import AdminManageJobs from './pages/admin/AdminManageJobs'
 import AdminManagePosts from './pages/admin/AdminManagePosts'
+import AdminEmployers from './pages/admin/AdminEmployers'
 
 export default function App() {
   const { theme } = useTheme()
@@ -54,6 +70,7 @@ export default function App() {
 
   return (
     <AuthProvider>
+      <NotificationProvider>
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -63,6 +80,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/jobs" element={<JobListings />} />
           <Route path="/jobs/:id" element={<JobDetails />} />
+          <Route path="/candidate/:userId" element={<CandidateProfile />} />
+          <Route path="/company/:employerId" element={<CompanyProfile />} />
 
           {/* User */}
           <Route path="/applied" element={<ProtectedRoute role="user"><AppliedJobs /></ProtectedRoute>} />
@@ -94,12 +113,30 @@ export default function App() {
           <Route path="/employer/applicants" element={<ProtectedRoute role="employer"><Applicants /></ProtectedRoute>} />
           <Route path="/employer/applicants/:jobId" element={<ProtectedRoute role="employer"><Applicants /></ProtectedRoute>} />
           <Route path="/employer/profile" element={<ProtectedRoute role="employer"><EmployerProfile /></ProtectedRoute>} />
+          {/* Recruiter Super Dashboard */}
+          <Route path="/employer/recruiter" element={<ProtectedRoute role="employer"><RecruiterDashboard /></ProtectedRoute>} />
+          <Route path="/employer/funnel/:jobId" element={<ProtectedRoute role="employer"><HiringFunnel /></ProtectedRoute>} />
+          <Route path="/employer/funnel" element={<ProtectedRoute role="employer"><RecruiterDashboard /></ProtectedRoute>} />
+          <Route path="/employer/ranking/:jobId" element={<ProtectedRoute role="employer"><CandidateRanking /></ProtectedRoute>} />
+          <Route path="/employer/ranking" element={<ProtectedRoute role="employer"><RecruiterDashboard /></ProtectedRoute>} />
+          <Route path="/employer/shortlist/:jobId" element={<ProtectedRoute role="employer"><AutoShortlist /></ProtectedRoute>} />
+          <Route path="/employer/shortlist" element={<ProtectedRoute role="employer"><RecruiterDashboard /></ProtectedRoute>} />
+          <Route path="/employer/timeline/:appId" element={<ProtectedRoute role="employer"><CandidateTimelineView /></ProtectedRoute>} />
+          <Route path="/employer/timeline" element={<ProtectedRoute role="employer"><RecruiterDashboard /></ProtectedRoute>} />
+          <Route path="/employer/blind-hiring/:jobId" element={<ProtectedRoute role="employer"><BlindHiring /></ProtectedRoute>} />
+          <Route path="/employer/blind-hiring" element={<ProtectedRoute role="employer"><RecruiterDashboard /></ProtectedRoute>} />
+          <Route path="/employer/skill-match" element={<ProtectedRoute role="employer"><SkillJobPosting /></ProtectedRoute>} />
+          <Route path="/employer/job-health" element={<ProtectedRoute role="employer"><JobHealthDashboard /></ProtectedRoute>} />
+          <Route path="/employer/talent-pools" element={<ProtectedRoute role="employer"><TalentPools /></ProtectedRoute>} />
+          {/* Micro-Internships (accessible to all) */}
+          <Route path="/micro-internships" element={<ProtectedRoute><MicroInternships /></ProtectedRoute>} />
 
           {/* Admin */}
           <Route path="/admin/dashboard" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
           <Route path="/admin/users" element={<ProtectedRoute role="admin"><ManageUsers /></ProtectedRoute>} />
           <Route path="/admin/jobs" element={<ProtectedRoute role="admin"><AdminManageJobs /></ProtectedRoute>} />
           <Route path="/admin/posts" element={<ProtectedRoute role="admin"><AdminManagePosts /></ProtectedRoute>} />
+          <Route path="/admin/employers" element={<ProtectedRoute role="admin"><AdminEmployers /></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -137,6 +174,7 @@ export default function App() {
           }}
         />
       </BrowserRouter>
+      </NotificationProvider>
     </AuthProvider>
   )
 }

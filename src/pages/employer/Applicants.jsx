@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import {
   FiArrowLeft, FiMail, FiPhone, FiFileText,
-  FiCheck, FiX, FiEye, FiUsers, FiExternalLink
+  FiCheck, FiX, FiEye, FiUsers, FiUser
 } from 'react-icons/fi'
 import { formatDistanceToNow } from 'date-fns'
 
@@ -53,11 +53,11 @@ export default function Applicants() {
         {/* ── Header ── */}
         <div className="mb-8">
           <button onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-[13px] text-slate-500 hover:text-slate-300 transition-colors mb-4">
+            className="flex items-center gap-2 text-[13px] text-slate-500 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors mb-4">
             <FiArrowLeft size={15} /> Back
           </button>
-          <div className="text-[12px] font-semibold text-indigo-400 uppercase tracking-widest mb-1">Recruitment</div>
-          <h1 className="text-[26px] font-bold text-white mb-1">Applicants</h1>
+          <div className="text-[12px] font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">Recruitment</div>
+          <h1 className="text-[26px] font-bold text-slate-900 dark:text-white mb-1">Applicants</h1>
           <p className="text-[14px] text-slate-500 dark:text-slate-500">{apps.length} total application{apps.length !== 1 ? 's' : ''}</p>
         </div>
 
@@ -68,8 +68,8 @@ export default function Applicants() {
               <button key={key} onClick={() => setFilter(key)}
                 className={`px-4 py-2 rounded-xl text-[13px] font-medium transition-all capitalize ${
                   filter === key
-                    ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/25'
-                    : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-[#1e2d3d]'
+                    ? 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/25'
+                    : 'text-slate-600 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 border border-transparent hover:border-slate-200 dark:hover:border-[#1e2d3d]'
                 }`}>
                 {key} <span className="ml-1 text-[11px] opacity-70">({count})</span>
               </button>
@@ -84,10 +84,10 @@ export default function Applicants() {
           </div>
         ) : apps.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-5">
+            <div className="w-16 h-16 rounded-2xl bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-5">
               <FiUsers size={24} />
             </div>
-            <h3 className="text-[18px] font-semibold text-white mb-2">No applicants yet</h3>
+            <h3 className="text-[18px] font-semibold text-slate-900 dark:text-white mb-2">No applicants yet</h3>
             <p className="text-[14px] text-slate-500 dark:text-slate-500">Applications will appear here once candidates apply.</p>
           </div>
         ) : (
@@ -105,21 +105,21 @@ export default function Applicants() {
                   <div className="flex items-start justify-between gap-4 flex-wrap">
                     {/* Applicant info */}
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/20 flex items-center justify-center font-bold text-[15px] text-indigo-300 overflow-hidden flex-shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/20 flex items-center justify-center font-bold text-[15px] text-indigo-600 dark:text-indigo-300 overflow-hidden flex-shrink-0">
                         {app.applicant?.avatar
                           ? <img src={app.applicant.avatar} alt="" className="w-full h-full object-cover" />
                           : app.applicant?.name?.[0]?.toUpperCase()}
                       </div>
                       <div>
-                        <h3 className="text-[15px] font-semibold text-white mb-1">{app.applicant?.name}</h3>
-                        <div className="flex flex-wrap gap-3 text-[13px] text-slate-500 mb-2">
+                        <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white mb-1">{app.applicant?.name}</h3>
+                        <div className="flex flex-wrap gap-3 text-[13px] text-slate-500 dark:text-slate-500 mb-2">
                           <span className="flex items-center gap-1.5"><FiMail size={12} />{app.applicant?.email}</span>
                           {app.applicant?.phone && (
                             <span className="flex items-center gap-1.5"><FiPhone size={12} />{app.applicant.phone}</span>
                           )}
                         </div>
                         {app.job?.title && (
-                          <p className="text-[12px] text-indigo-400 mb-2">Applied for: {app.job.title}</p>
+                          <p className="text-[12px] text-indigo-600 dark:text-indigo-400 mb-2">Applied for: {app.job.title}</p>
                         )}
                         {app.applicant?.skills?.length > 0 && (
                           <div className="flex flex-wrap gap-1.5">
@@ -130,7 +130,7 @@ export default function Applicants() {
                             ))}
                           </div>
                         )}
-                        <p className="text-[11px] text-slate-700 mt-2">
+                        <p className="text-[11px] text-slate-500 dark:text-slate-600 mt-2">
                           {formatDistanceToNow(new Date(app.createdAt), { addSuffix: true })}
                         </p>
                       </div>
@@ -140,30 +140,35 @@ export default function Applicants() {
                     <div className="flex flex-col items-end gap-3">
                       <span className={`badge ${status.badge}`}>{status.label}</span>
                       <div className="flex items-center gap-1.5">
+                        <button onClick={() => navigate(`/candidate/${app.applicant._id}`)}
+                          className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
+                          title="View Profile">
+                          <FiUser size={14} />
+                        </button>
                         {app.applicant?.resume && (
                           <a href={app.applicant.resume} target="_blank" rel="noreferrer"
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
                             title="View Resume">
                             <FiFileText size={14} />
                           </a>
                         )}
                         {app.status !== 'accepted' && (
                           <button onClick={() => updateStatus(app._id, 'accepted')}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-all"
                             title="Accept">
                             <FiCheck size={14} />
                           </button>
                         )}
                         {app.status !== 'rejected' && (
                           <button onClick={() => updateStatus(app._id, 'rejected')}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all"
                             title="Reject">
                             <FiX size={14} />
                           </button>
                         )}
                         {app.status === 'pending' && (
                           <button onClick={() => updateStatus(app._id, 'reviewed')}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 transition-all"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all"
                             title="Mark Reviewed">
                             <FiEye size={14} />
                           </button>
@@ -174,11 +179,11 @@ export default function Applicants() {
 
                   {/* Cover letter */}
                   {app.coverLetter && (
-                    <div className="mt-4 pt-4 border-t border-[#1e2d3d]">
-                      <p className="text-[12px] text-slate-600 mb-2 flex items-center gap-1.5">
+                    <div className="mt-4 pt-4 border-t border-slate-200 dark:border-[#1e2d3d]">
+                      <p className="text-[12px] text-slate-500 dark:text-slate-600 mb-2 flex items-center gap-1.5">
                         <FiFileText size={11} /> Cover Letter
                       </p>
-                      <p className="text-[13px] text-slate-400 leading-relaxed line-clamp-3">{app.coverLetter}</p>
+                      <p className="text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">{app.coverLetter}</p>
                     </div>
                   )}
                 </motion.div>
@@ -190,6 +195,3 @@ export default function Applicants() {
     </div>
   )
 }
-
-
-

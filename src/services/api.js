@@ -31,7 +31,10 @@ export const jobsAPI = {
   getById: (id) => API.get(`/jobs/${id}`),
   create: (data) => API.post('/jobs', data),
   update: (id, data) => API.put(`/jobs/${id}`, data),
-  delete: (id) => API.delete(`/jobs/${id}`)
+  delete: (id) => API.delete(`/jobs/${id}`),
+  bookmark: (id) => API.post(`/jobs/${id}/bookmark`),
+  unbookmark: (id) => API.delete(`/jobs/${id}/bookmark`),
+  getBookmarked: () => API.get('/jobs/bookmarked')
 }
 
 export const applicationsAPI = {
@@ -53,7 +56,12 @@ export const postsAPI = {
 
 export const employerAPI = {
   getJobs: () => API.get('/employer/jobs'),
-  getApplications: () => API.get('/employer/applications')
+  getApplications: () => API.get('/employer/applications'),
+  getEmployerProfile: (employerId) => API.get(`/employer/profile/${employerId}`)
+}
+
+export const jobAPI = {
+  getEmployerJobs: (employerId) => API.get(`/jobs/employer/${employerId}`)
 }
 
 export const adminAPI = {
@@ -63,6 +71,18 @@ export const adminAPI = {
   getJobs: () => API.get('/admin/jobs'),
   getPosts: () => API.get('/admin/posts'),
   deletePost: (id) => API.delete(`/admin/post/${id}`)
+}
+
+export const notificationsAPI = {
+  getAll: () => API.get('/notifications'),
+  getUnreadCount: () => API.get('/notifications/unread-count'),
+  markRead: (id) => API.put(`/notifications/${id}/read`),
+  markAllRead: () => API.put('/notifications/mark-all-read'),
+  delete: (id) => API.delete(`/notifications/${id}`),
+  deleteAllRead: () => API.delete('/notifications/read'),
+  clearAll: () => API.delete('/notifications'),
+  getPendingEmployers: () => API.get('/notifications/admin/pending-employers'),
+  handleEmployerApproval: (data) => API.post('/notifications/admin/employer-approval', data)
 }
 
 export const userAPI = {
@@ -178,4 +198,67 @@ export const reputationAPI = {
   connectGitHub: (username) => API.post('/reputation/connect/github', { username }),
   connectLeetCode: (username) => API.post('/reputation/connect/leetcode', { username }),
   requestEndorsement: (data) => API.post('/reputation/endorse', data)
+}
+
+// ─── Recruiter Super Dashboard APIs (Features 11–20) ─────────────────────────
+
+export const hiringFunnelAPI = {
+  getFunnel: (jobId, params) => API.get(`/recruiter/jobs/${jobId}/funnel`, { params }),
+  getStageCandidates: (jobId, stage) => API.get(`/recruiter/jobs/${jobId}/funnel/${stage}/candidates`),
+  updateStage: (appId, stage) => API.patch(`/recruiter/applications/${appId}/stage`, { stage }),
+  exportFunnel: (jobId) => API.get(`/recruiter/jobs/${jobId}/funnel/export`)
+}
+
+export const candidateRankingAPI = {
+  getRanked: (jobId) => API.get(`/recruiter/jobs/${jobId}/applicants/ranked`),
+  pin: (data) => API.post('/recruiter/pins', data),
+  unpin: (jobId, candidateId) => API.delete(`/recruiter/pins/${jobId}/${candidateId}`)
+}
+
+export const autoShortlistAPI = {
+  generate: (data) => API.post('/recruiter/shortlist', data),
+  approve: (data) => API.post('/recruiter/shortlist/approve', data)
+}
+
+export const candidateTimelineAPI = {
+  getTimeline: (appId) => API.get(`/recruiter/applications/${appId}/timeline`),
+  addNote: (appId, content) => API.post(`/recruiter/applications/${appId}/timeline/note`, { content })
+}
+
+export const blindHiringAPI = {
+  toggle: (jobId, enabled) => API.post(`/recruiter/jobs/${jobId}/blind-mode`, { enabled }),
+  reveal: (jobId, candidateId) => API.post('/recruiter/blind/reveal', { jobId, candidateId })
+}
+
+export const skillJobAPI = {
+  findMatches: (data) => API.post('/recruiter/jobs/skill-match', data),
+  quickApply: (jobId) => API.post('/marketplace/quick-apply', { jobId })
+}
+
+export const jobHealthAPI = {
+  getHealth: (jobId) => API.get(`/recruiter/jobs/${jobId}/health`),
+  overrideTier: (jobId, data) => API.patch(`/recruiter/jobs/${jobId}/tier`, data),
+  getOverview: () => API.get('/recruiter/jobs/health-overview')
+}
+
+export const talentPoolAPI = {
+  getPools: () => API.get('/recruiter/talent-pools'),
+  create: (data) => API.post('/recruiter/talent-pools', data),
+  getMembers: (id) => API.get(`/recruiter/talent-pools/${id}/members`),
+  addMember: (id, data) => API.post(`/recruiter/talent-pools/${id}/members`, data),
+  removeMember: (id, candidateId) => API.delete(`/recruiter/talent-pools/${id}/members/${candidateId}`),
+  deletePool: (id) => API.delete(`/recruiter/talent-pools/${id}`),
+  exportPool: (id) => API.get(`/recruiter/talent-pools/${id}/export`)
+}
+
+export const microInternshipAPI = {
+  getMarketplace: (params) => API.get('/marketplace/micro-internships', { params }),
+  create: (data) => API.post('/marketplace/micro-internships', data),
+  getMy: () => API.get('/marketplace/micro-internships/my'),
+  apply: (id) => API.post(`/marketplace/micro-internships/${id}/apply`),
+  accept: (id, candidateId) => API.post(`/marketplace/micro-internships/${id}/accept/${candidateId}`),
+  submit: (id, data) => API.post(`/marketplace/micro-internships/${id}/submit`, data),
+  getSubmissions: (id) => API.get(`/marketplace/micro-internships/${id}/submissions`),
+  evaluate: (id, submissionId, data) => API.post(`/marketplace/micro-internships/${id}/evaluate/${submissionId}`, data),
+  fastTrack: (id, candidateId) => API.post(`/marketplace/micro-internships/${id}/fast-track/${candidateId}`)
 }

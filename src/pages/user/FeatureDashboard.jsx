@@ -159,6 +159,17 @@ const FEATURES = [
     iconColor: 'text-yellow-500 dark:text-yellow-400',
     priority: 'P1', 
     sprint: 'S4' 
+  },
+  {
+    id: 15,
+    title: 'Micro-Internships',
+    desc: 'Short tasks to prove your skills',
+    icon: FiBriefcase,
+    path: '/micro-internships',
+    gradient: 'from-green-500/20 to-green-600/5',
+    iconColor: 'text-green-500 dark:text-green-400',
+    priority: 'P1',
+    sprint: 'S3'
   }
 ]
 
@@ -213,7 +224,7 @@ export default function FeatureDashboard() {
                 AI Career Platform
               </h1>
               <p className="dark:text-slate-400 text-slate-600">
-                14 features to accelerate your career — all in one place
+                15 features to accelerate your career — all in one place
               </p>
             </div>
           </div>
@@ -250,8 +261,8 @@ export default function FeatureDashboard() {
             },
             { 
               label: 'Features Active', 
-              value: '14', 
-              suffix: '/14', 
+              value: '15', 
+              suffix: '/15', 
               color: 'text-indigo-500',
               bgColor: 'from-indigo-500/20 to-indigo-600/5'
             }
