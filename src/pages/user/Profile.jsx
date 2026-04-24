@@ -122,6 +122,13 @@ export default function Profile() {
   const avatarSrc = avatarPreview || profile.avatar
   const profileCompletion = calculateProfileCompletion(profile)
 
+  const getResumeUrl = (resumePath) => {
+    if (!resumePath) return null
+    if (resumePath.startsWith('http://') || resumePath.startsWith('https://')) return resumePath
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || ''
+    return `${backendUrl}${resumePath}`
+  }
+
   return (
     <div className="h-screen pt-16 bg-slate-50 dark:bg-[#060912] overflow-hidden">
       <div className="h-full max-w-7xl mx-auto px-4 py-4">
@@ -160,9 +167,7 @@ export default function Profile() {
               <div className="text-center mb-4">
                 <div className="relative inline-block">
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 dark:from-blue-500 dark:to-blue-600 flex items-center justify-center overflow-hidden text-xl font-bold text-white shadow-lg">
-                    {avatarSrc
-                      ? <img src={avatarSrc} alt="" className="w-full h-full object-cover" />
-                      : profile.name?.[0]?.toUpperCase()}
+                    {profile.name?.[0]?.toUpperCase()}
                   </div>
                   {editing && (
                     <label className="absolute -bottom-1 -right-1 w-6 h-6 bg-orange-500 dark:bg-blue-500 hover:bg-orange-600 dark:hover:bg-blue-600 rounded-full flex items-center justify-center cursor-pointer transition-colors shadow-lg">
@@ -259,7 +264,7 @@ export default function Profile() {
 
               {profile.resume ? (
                 <a
-                  href={profile.resume}
+                  href={getResumeUrl(profile.resume)}
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 p-2 rounded-lg transition-all group border border-slate-200 dark:border-[#1e2d3d] bg-slate-50 dark:bg-white/[0.02] hover:border-orange-300 dark:hover:border-blue-500/40"

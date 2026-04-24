@@ -52,9 +52,7 @@ export default function CandidateProfile() {
               {/* Avatar */}
               <div className="text-center mb-4">
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center overflow-hidden text-2xl font-bold text-white shadow-lg mx-auto">
-                  {profile.avatar
-                    ? <img src={profile.avatar} alt="" className="w-full h-full object-cover" />
-                    : profile.name?.[0]?.toUpperCase()}
+                  {profile.name?.[0]?.toUpperCase()}
                 </div>
                 
                 <div className="mt-4">
@@ -106,7 +104,7 @@ export default function CandidateProfile() {
               >
                 <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">Resume</h3>
                 <a
-                  href={profile.resume}
+                  href={profile.resume?.startsWith('http') ? profile.resume : `${import.meta.env.VITE_BACKEND_URL || ''}${profile.resume}`}
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 p-3 rounded-lg transition-all group border border-slate-200 dark:border-[#1e2d3d] bg-slate-50 dark:bg-white/[0.02] hover:border-indigo-300 dark:hover:border-indigo-500/40"

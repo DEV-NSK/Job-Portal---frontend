@@ -188,9 +188,7 @@ export default function EmployerProfile() {
               <div className="text-center mb-6">
                 <div className="relative inline-block">
                   <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 dark:from-blue-500 dark:to-blue-600 flex items-center justify-center overflow-hidden text-2xl lg:text-3xl font-bold text-white shadow-lg border-4 border-white dark:border-slate-800">
-                    {logoSrc
-                      ? <img src={logoSrc} alt="" className="w-full h-full object-cover" />
-                      : (employer?.companyName?.[0]?.toUpperCase() || profile.name?.[0]?.toUpperCase())}
+                    {employer?.companyName?.[0]?.toUpperCase() || profile.name?.[0]?.toUpperCase()}
                   </div>
                   {editing && (
                     <label className="absolute -bottom-1 -right-1 w-8 h-8 bg-orange-500 dark:bg-blue-500 hover:bg-orange-600 dark:hover:bg-blue-600 rounded-full flex items-center justify-center cursor-pointer transition-colors shadow-lg">

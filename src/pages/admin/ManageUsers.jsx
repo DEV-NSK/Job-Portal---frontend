@@ -69,7 +69,7 @@ export default function ManageUsers() {
               <div key={u._id} className="card flex items-center justify-between gap-4 flex-wrap hover:scale-[1.005] transition-all animate-slide-up">
                 <div className="flex items-center gap-4">
                   <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500/30 to-purple-500/30 border border-indigo-500/20 flex items-center justify-center font-bold overflow-hidden flex-shrink-0">
-                    {u.avatar ? <img src={u.avatar} alt="" className="w-full h-full object-cover" /> : u.name?.[0]?.toUpperCase()}
+                    {u.name?.[0]?.toUpperCase()}
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">

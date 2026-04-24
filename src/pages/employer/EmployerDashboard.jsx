@@ -211,9 +211,7 @@ export default function EmployerDashboard() {
                       className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 dark:border-[#1e2d3d] bg-slate-50 dark:bg-white/[0.02]"
                     >
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500/30 to-purple-500/30 flex items-center justify-center text-[12px] font-bold text-indigo-300 overflow-hidden flex-shrink-0">
-                        {app.applicant?.avatar
-                          ? <img src={app.applicant.avatar} alt="" className="w-full h-full object-cover" />
-                          : app.applicant?.name?.[0]?.toUpperCase()}
+                        {app.applicant?.name?.[0]?.toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[13px] font-medium text-slate-700 dark:text-slate-200 truncate">{app.applicant?.name}</p>

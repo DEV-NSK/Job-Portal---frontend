@@ -43,7 +43,7 @@ export default function AdminManagePosts() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3 flex-1 min-w-0">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500/30 to-accent-500/30 flex items-center justify-center font-bold text-sm overflow-hidden flex-shrink-0">
-                      {post.author?.avatar ? <img src={post.author.avatar} alt="" className="w-full h-full object-cover" /> : post.author?.name?.[0]?.toUpperCase()}
+                      {post.author?.name?.[0]?.toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">

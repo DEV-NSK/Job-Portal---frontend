@@ -106,9 +106,7 @@ export default function Applicants() {
                     {/* Applicant info */}
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/20 flex items-center justify-center font-bold text-[15px] text-indigo-600 dark:text-indigo-300 overflow-hidden flex-shrink-0">
-                        {app.applicant?.avatar
-                          ? <img src={app.applicant.avatar} alt="" className="w-full h-full object-cover" />
-                          : app.applicant?.name?.[0]?.toUpperCase()}
+                        {app.applicant?.name?.[0]?.toUpperCase()}
                       </div>
                       <div>
                         <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white mb-1">{app.applicant?.name}</h3>
@@ -146,7 +144,7 @@ export default function Applicants() {
                           <FiUser size={14} />
                         </button>
                         {app.applicant?.resume && (
-                          <a href={app.applicant.resume} target="_blank" rel="noreferrer"
+                          <a href={app.applicant.resume?.startsWith('http') ? app.applicant.resume : `${import.meta.env.VITE_BACKEND_URL || ''}${app.applicant.resume}`} target="_blank" rel="noreferrer"
                             className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
                             title="View Resume">
                             <FiFileText size={14} />
