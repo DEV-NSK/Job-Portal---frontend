@@ -215,14 +215,14 @@ export default function Profile() {
                       </div>
                     )}
                     {profile.linkedin && (
-                      <a href={profile.linkedin} target="_blank" rel="noreferrer"
+                      <a href={ensureHttps(profile.linkedin)} target="_blank" rel="noreferrer"
                         className="flex items-center gap-2 text-orange-600 dark:text-blue-400 hover:text-orange-700 dark:hover:text-blue-300 transition-colors">
                         <FiLinkedin size={12} />
                         <span className="text-xs">LinkedIn</span>
                       </a>
                     )}
                     {profile.github && (
-                      <a href={profile.github} target="_blank" rel="noreferrer"
+                      <a href={ensureHttps(profile.github)} target="_blank" rel="noreferrer"
                         className="flex items-center gap-2 text-orange-600 dark:text-blue-400 hover:text-orange-700 dark:hover:text-blue-300 transition-colors">
                         <FiGithub size={12} />
                         <span className="text-xs">GitHub</span>
@@ -527,6 +527,16 @@ export default function Profile() {
 }
 
 // Helper functions
+function ensureHttps(url) {
+  if (!url) return ''
+  // If URL already has a protocol, return as is
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url
+  }
+  // Otherwise, add https://
+  return `https://${url}`
+}
+
 function calculateProfileCompletion(profile) {
   const fields = [
     profile.name,

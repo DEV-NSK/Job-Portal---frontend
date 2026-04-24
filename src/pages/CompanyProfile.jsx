@@ -17,39 +17,58 @@ export default function CompanyProfile() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    console.log('Fetching employer profile for ID:', employerId);
-    Promise.all([
-      employerAPI.getEmployerProfile(employerId).catch(err => {
-        console.log('Employer profile not found, using basic info');
-        return { data: { employer: null } };
-      }),
-      jobAPI.getEmployerJobs(employerId)
-    ])
-      .then(([empRes, jobsRes]) => {
-        console.log('Employer response:', empRes.data);
-        console.log('Jobs response:', jobsRes.data);
-        
-        // If no employer profile, create a basic one from job data
-        if (!empRes.data.employer && jobsRes.data.length > 0) {
-          const firstJob = jobsRes.data[0];
-          setEmployer({
-            companyName: firstJob.companyName,
-            companyLogo: firstJob.companyLogo,
-            location: firstJob.location,
-            description: `${firstJob.companyName} is actively hiring. Check out their open positions below.`,
-            industry: firstJob.category || 'Technology',
-          });
-        } else {
-          setEmployer(empRes.data.employer);
-        }
+    const fetchData = async () => {
+      try {
+        // Fetch jobs first (always works)
+        const jobsRes = await jobAPI.getEmployerJobs(employerId);
         setJobs(jobsRes.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching company profile:', error);
-        toast.error('Company profile not found');
+
+        // Try to fetch employer profile
+        try {
+          const empRes = await employerAPI.getEmployerProfile(employerId);
+          setEmployer(empRes.data.employer);
+        } catch (profileError) {
+          // If profile fetch fails, create basic profile from jobs or show minimal info
+          if (jobsRes.data.length > 0) {
+            const firstJob = jobsRes.data[0];
+            setEmployer({
+              companyName: firstJob.companyName || 'Company',
+              companyLogo: firstJob.companyLogo || '',
+              location: firstJob.location || '',
+              industry: firstJob.category || '',
+              description: `${firstJob.companyName || 'This company'} is actively hiring. Check out their open positions below.`,
+              website: '',
+              companySize: '',
+              culture: '',
+              benefits: '',
+              founded: ''
+            });
+          } else {
+            // No jobs and no profile - show minimal company page
+            setEmployer({
+              companyName: 'Company Profile',
+              companyLogo: '',
+              location: '',
+              industry: '',
+              description: 'This company is setting up their profile. Check back soon for more information.',
+              website: '',
+              companySize: '',
+              culture: '',
+              benefits: '',
+              founded: ''
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching company data:', error);
+        toast.error('Unable to load company profile');
         navigate(-1);
-      })
-      .finally(() => setLoading(false))
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [employerId, navigate])
 
   if (loading) return (
