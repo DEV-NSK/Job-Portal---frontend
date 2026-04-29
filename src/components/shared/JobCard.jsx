@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FiMapPin, FiBriefcase, FiClock, FiDollarSign, FiUsers, FiShare2, FiBookmark, FiExternalLink } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatDistanceToNow } from 'date-fns'
 import { motion } from 'framer-motion'
 import { jobsAPI } from '../../services/api'
@@ -18,6 +18,7 @@ const typeColors = {
 
 export default function JobCard({ job, index = 0, viewMode = 'grid' }) {
   const { user } = useAuth()
+  const navigate = useNavigate()
   const [showShare, setShowShare] = useState(false)
   const [isBookmarked, setIsBookmarked] = useState(job.isBookmarked || false)
   const [bookmarkLoading, setBookmarkLoading] = useState(false)
@@ -78,13 +79,12 @@ export default function JobCard({ job, index = 0, viewMode = 'grid' }) {
                     <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-blue-400 transition-colors">
                       {job.title}
                     </h3>
-                    <Link 
-                      to={`/company/${typeof job.employer === 'object' ? job.employer._id : job.employer}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-slate-600 dark:text-slate-400 font-medium hover:text-orange-600 dark:hover:text-blue-400 transition-colors inline-block"
+                    <span
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate(`/company/${typeof job.employer === 'object' ? job.employer._id : job.employer}`) }}
+                      className="text-slate-600 dark:text-slate-400 font-medium hover:text-orange-600 dark:hover:text-blue-400 transition-colors inline-block cursor-pointer"
                     >
                       {job.companyName}
-                    </Link>
+                    </span>
                   </div>
                   <span className={`badge ${typeColors[job.type] || 'badge-blue'} flex-shrink-0`}>{job.type}</span>
                 </div>
@@ -166,13 +166,12 @@ export default function JobCard({ job, index = 0, viewMode = 'grid' }) {
                   <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 leading-tight mb-1">
                     {job.title}
                   </h3>
-                  <Link 
-                    to={`/company/${typeof job.employer === 'object' ? job.employer._id : job.employer}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-sm text-slate-600 dark:text-slate-400 font-medium truncate hover:text-orange-600 dark:hover:text-blue-400 transition-colors inline-block"
+                  <span
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate(`/company/${typeof job.employer === 'object' ? job.employer._id : job.employer}`) }}
+                    className="text-sm text-slate-600 dark:text-slate-400 font-medium truncate hover:text-orange-600 dark:hover:text-blue-400 transition-colors inline-block cursor-pointer"
                   >
                     {job.companyName}
-                  </Link>
+                  </span>
                 </div>
               </div>
 

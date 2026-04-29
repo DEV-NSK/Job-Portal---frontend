@@ -5,15 +5,25 @@ const AuthContext = createContext(null)
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('user')) } catch { return null }
+    try {
+      const stored = JSON.parse(localStorage.getItem('user'))
+      if (!stored) return null
+      return { ...stored, _id: stored._id || stored.id }
+    } catch { return null }
   })
   const [loading, setLoading] = useState(true)
+
+  // Normalize user object so _id always exists (handles both Node.js and Django backends)
+  const normalizeUser = (userData) => {
+    if (!userData) return null
+    return { ...userData, _id: userData._id || userData.id }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
       authAPI.getMe()
-        .then(res => setUser(res.data))
+        .then(res => setUser(normalizeUser(res.data)))
         .catch(() => { localStorage.removeItem('token'); localStorage.removeItem('user') })
         .finally(() => setLoading(false))
     } else {
@@ -22,9 +32,10 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const login = (token, userData) => {
+    const normalized = normalizeUser(userData)
     localStorage.setItem('token', token)
-    localStorage.setItem('user', JSON.stringify(userData))
-    setUser(userData)
+    localStorage.setItem('user', JSON.stringify(normalized))
+    setUser(normalized)
   }
 
   const logout = () => {
@@ -34,8 +45,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   const updateUser = (userData) => {
-    localStorage.setItem('user', JSON.stringify(userData))
-    setUser(userData)
+    const normalized = normalizeUser(userData)
+    localStorage.setItem('user', JSON.stringify(normalized))
+    setUser(normalized)
   }
 
   // Save the URL the user was trying to visit before being redirected to login

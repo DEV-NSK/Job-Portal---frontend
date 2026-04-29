@@ -8,8 +8,28 @@ API.interceptors.request.use((config) => {
   return config
 })
 
+// Normalize objects from Django backend: add _id alias for id
+const normalizeIds = (data) => {
+  if (Array.isArray(data)) return data.map(normalizeIds)
+  if (data && typeof data === 'object') {
+    const out = {}
+    for (const key of Object.keys(data)) {
+      out[key] = normalizeIds(data[key])
+    }
+    // Add _id alias if id exists but _id doesn't
+    if (out.id !== undefined && out._id === undefined) {
+      out._id = String(out.id)
+    }
+    return out
+  }
+  return data
+}
+
 API.interceptors.response.use(
-  (res) => res,
+  (res) => {
+    res.data = normalizeIds(res.data)
+    return res
+  },
   (err) => {
     if (err.response?.status === 401) {
       localStorage.removeItem('token')

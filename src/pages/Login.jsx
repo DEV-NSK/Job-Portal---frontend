@@ -145,6 +145,7 @@ export default function Login() {
               <div className="relative">
                 <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
                 <input type={showPass ? 'text' : 'password'} placeholder="Enter your password" required
+                  autoComplete="current-password"
                   className="input-field pl-10 pr-10"
                   value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />
                 <button type="button" onClick={() => setShowPass(!showPass)}

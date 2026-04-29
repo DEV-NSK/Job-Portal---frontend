@@ -31,11 +31,13 @@ export default function JobDetails() {
   const [bookmarked, setBookmarked] = useState(false)
 
   useEffect(() => {
+    if (!id || id === 'undefined') {
+      toast.error('Invalid job link')
+      navigate('/jobs', { replace: true })
+      return
+    }
     jobsAPI.getById(id)
       .then(res => {
-        console.log('Job data:', res.data);
-        console.log('Employer field:', res.data.employer);
-        console.log('Employer type:', typeof res.data.employer);
         setJob(res.data);
       })
       .catch(() => toast.error('Job not found'))
