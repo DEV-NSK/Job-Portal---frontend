@@ -94,6 +94,10 @@ export default function Applicants() {
           <div className="space-y-3">
             {filtered.map((app, i) => {
               const status = statusConfig[app.status] || statusConfig.pending
+              // Django returns applicant_detail (full object) and applicant (integer FK)
+              const applicant = app.applicant_detail || app.applicant
+              const applicantId = applicant?._id || applicant?.id || app.applicant
+              const resumeUrl = app.resume || applicant?.resume
               return (
                 <motion.div
                   key={app._id}
@@ -106,22 +110,22 @@ export default function Applicants() {
                     {/* Applicant info */}
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/20 flex items-center justify-center font-bold text-[15px] text-indigo-600 dark:text-indigo-300 overflow-hidden flex-shrink-0">
-                        {app.applicant?.name?.[0]?.toUpperCase()}
+                        {applicant?.name?.[0]?.toUpperCase()}
                       </div>
                       <div>
-                        <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white mb-1">{app.applicant?.name}</h3>
+                        <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white mb-1">{applicant?.name}</h3>
                         <div className="flex flex-wrap gap-3 text-[13px] text-slate-500 dark:text-slate-500 mb-2">
-                          <span className="flex items-center gap-1.5"><FiMail size={12} />{app.applicant?.email}</span>
-                          {app.applicant?.phone && (
-                            <span className="flex items-center gap-1.5"><FiPhone size={12} />{app.applicant.phone}</span>
+                          <span className="flex items-center gap-1.5"><FiMail size={12} />{applicant?.email}</span>
+                          {applicant?.phone && (
+                            <span className="flex items-center gap-1.5"><FiPhone size={12} />{applicant.phone}</span>
                           )}
                         </div>
-                        {app.job?.title && (
-                          <p className="text-[12px] text-indigo-600 dark:text-indigo-400 mb-2">Applied for: {app.job.title}</p>
+                        {app.job_detail?.title && (
+                          <p className="text-[12px] text-indigo-600 dark:text-indigo-400 mb-2">Applied for: {app.job_detail.title}</p>
                         )}
-                        {app.applicant?.skills?.length > 0 && (
+                        {applicant?.skills?.length > 0 && (
                           <div className="flex flex-wrap gap-1.5">
-                            {app.applicant.skills.slice(0, 5).map(s => (
+                            {applicant.skills.slice(0, 5).map(s => (
                               <span key={s} className="px-2 py-0.5 text-[11px] font-medium text-slate-600 dark:text-slate-400 rounded-md bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-[#1e2d3d]">
                                 {s}
                               </span>
@@ -129,7 +133,7 @@ export default function Applicants() {
                           </div>
                         )}
                         <p className="text-[11px] text-slate-500 dark:text-slate-600 mt-2">
-                          {formatDistanceToNow(new Date(app.createdAt), { addSuffix: true })}
+                          {formatDistanceToNow(new Date(app.created_at || app.createdAt), { addSuffix: true })}
                         </p>
                       </div>
                     </div>
@@ -138,13 +142,13 @@ export default function Applicants() {
                     <div className="flex flex-col items-end gap-3">
                       <span className={`badge ${status.badge}`}>{status.label}</span>
                       <div className="flex items-center gap-1.5">
-                        <button onClick={() => navigate(`/candidate/${app.applicant._id}`)}
+                        <button onClick={() => navigate(`/candidate/${applicantId}`)}
                           className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
                           title="View Profile">
                           <FiUser size={14} />
                         </button>
-                        {app.applicant?.resume && (
-                          <a href={app.applicant.resume?.startsWith('http') ? app.applicant.resume : `${import.meta.env.VITE_BACKEND_URL || ''}${app.applicant.resume}`} target="_blank" rel="noreferrer"
+                        {resumeUrl && (
+                          <a href={resumeUrl.startsWith('http') ? resumeUrl : `${import.meta.env.VITE_BACKEND_URL || ''}${resumeUrl}`} target="_blank" rel="noreferrer"
                             className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
                             title="View Resume">
                             <FiFileText size={14} />
@@ -176,12 +180,12 @@ export default function Applicants() {
                   </div>
 
                   {/* Cover letter */}
-                  {app.coverLetter && (
+                  {(app.cover_letter || app.coverLetter) && (
                     <div className="mt-4 pt-4 border-t border-slate-200 dark:border-[#1e2d3d]">
                       <p className="text-[12px] text-slate-500 dark:text-slate-600 mb-2 flex items-center gap-1.5">
                         <FiFileText size={11} /> Cover Letter
                       </p>
-                      <p className="text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">{app.coverLetter}</p>
+                      <p className="text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">{app.cover_letter || app.coverLetter}</p>
                     </div>
                   )}
                 </motion.div>
