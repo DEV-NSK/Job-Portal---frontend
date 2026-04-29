@@ -43,51 +43,48 @@ export default function Profile() {
     setSaving(true)
     try {
       const fd = new FormData()
-      
-      // Prepare form data
-      const formToSave = { ...form }
-      
-      // Handle skills - use the processed skills array if available, otherwise process skillsText
-      if (form.skillsText) {
-        formToSave.skills = form.skillsText.split(',').map(s => s.trim()).filter(Boolean)
-      }
-      
-      // Remove skillsText from the data to save
-      delete formToSave.skillsText
-      
-      Object.entries(formToSave).forEach(([k, v]) => {
-        if (k === 'experience' || k === 'education') {
-          fd.append(k, JSON.stringify(v))
-        } else if (Array.isArray(v)) {
-          fd.append(k, v.join(','))
-        } else if (v !== undefined && v !== null) {
-          fd.append(k, v)
-        }
+
+      // Only send editable fields — never send system/read-only fields
+      const EDITABLE_FIELDS = ['name', 'bio', 'location', 'phone', 'linkedin', 'github']
+
+      EDITABLE_FIELDS.forEach(k => {
+        const v = form[k]
+        if (v !== undefined && v !== null) fd.append(k, v)
       })
-      
+
+      // Skills: process from skillsText or skills array
+      const skills = form.skillsText
+        ? form.skillsText.split(',').map(s => s.trim()).filter(Boolean)
+        : (Array.isArray(form.skills) ? form.skills : [])
+      fd.append('skills', skills.join(','))
+
+      // JSON fields
+      fd.append('experience', JSON.stringify(form.experience || []))
+      fd.append('education', JSON.stringify(form.education || []))
+
+      // Avatar file (only if a new one was selected)
       if (avatarFile) fd.append('avatar', avatarFile)
-      
+
       const res = await userAPI.updateProfile(fd)
-      console.log('Profile update response:', res.data) // Debug log
-      
+
       setProfile(res.data)
       updateUser(res.data)
       setEditing(false)
       setAvatarFile(null)
       setAvatarPreview(null)
-      
-      // Update skillsText to match the saved skills
+
       setForm(prev => ({
         ...prev,
         skillsText: Array.isArray(res.data.skills) ? res.data.skills.join(', ') : ''
       }))
-      
+
       toast.success('Profile updated!')
-    } catch (error) { 
+    } catch (error) {
       console.error('Profile update error:', error)
-      toast.error('Failed to update profile') 
+      toast.error('Failed to update profile')
+    } finally {
+      setSaving(false)
     }
-    finally { setSaving(false) }
   }
 
   const handleResumeUpload = async (e) => {
